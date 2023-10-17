@@ -11,6 +11,7 @@ generators:
     projectName: leap-workflows-python-sdk
     outputDirectory: sdks/python
     clientName: Leap
+    pypiApiTokenEnvironmentVariable: PYPI_TOKEN_1
     git:
       userId: leap-ai
       repoId: workflows-sdks/tree/main/sdks/python
