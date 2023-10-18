@@ -6,6 +6,7 @@ specPath: api-fixed.json
 specInputPath: api.json
 portal:
   favicon: favicon.jpg
+  primaryColor: '#008ae6'
   title: Leap
   logo:
     light: LightMode-BlackLogo.png
