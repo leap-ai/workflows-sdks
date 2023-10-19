@@ -22,14 +22,24 @@
             "description": "The workflow has been successfully initiated.",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/WorkflowRunEntity" }
+                "schema": {
+                  "$ref": "#/components/schemas/WorkflowRunEntity"
+                }
               }
             }
           },
-          "401": { "description": "Unauthorized." }
+          "401": {
+            "description": "Unauthorized."
+          }
         },
-        "tags": ["Workflow Runs"],
-        "security": [{ "api_key": [] }]
+        "tags": [
+          "Workflow Runs"
+        ],
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     },
     "/v1/runs/{workflow_run_id}": {
@@ -43,7 +53,9 @@
             "required": true,
             "in": "path",
             "description": "The ID of the workflow run to retrieve.",
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -51,14 +63,24 @@
             "description": "The workflow run details have been successfully retrieved.",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/WorkflowRunEntity" }
+                "schema": {
+                  "$ref": "#/components/schemas/WorkflowRunEntity"
+                }
               }
             }
           },
-          "401": { "description": "Unauthorized." }
+          "401": {
+            "description": "Unauthorized."
+          }
         },
-        "tags": ["Workflow Runs"],
-        "security": [{ "api_key": [] }]
+        "tags": [
+          "Workflow Runs"
+        ],
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     }
   },
@@ -81,13 +103,17 @@
   ],
   "servers": [
     {
-      "url": "https://api.workflows.tryleap.ai",
+      "url": "https://api.workflows.tryleap.ai/",
       "description": "Base API Server"
     }
   ],
   "components": {
     "securitySchemes": {
-      "api_key": { "type": "apiKey", "in": "header", "name": "X-Api-Key" }
+      "api_key": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Api-Key"
+      }
     },
     "schemas": {
       "WorkflowRunPostRequest": {
@@ -108,27 +134,61 @@
             "type": "object",
             "additionalProperties": true,
             "description": "Variables that the workflow can use globally and their values.",
-            "example": { "first_name": "Sam", "last_name": "Altman" }
+            "example": {
+              "first_name": "Sam",
+              "last_name": "Altman"
+            }
           }
         },
-        "required": ["workflow_id"]
+        "required": [
+          "workflow_id"
+        ]
       },
       "WorkflowRunEntity": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "format": "uuid" },
-          "version_id": { "type": "string", "format": "uuid" },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "version_id": {
+            "type": "string",
+            "format": "uuid"
+          },
           "status": {
             "type": "string",
-            "enum": ["completed", "running", "failed"]
+            "enum": [
+              "completed",
+              "running",
+              "failed"
+            ]
           },
-          "created_at": { "type": "string", "format": "date-time" },
-          "started_at": { "type": "string", "format": "date-time" },
-          "ended_at": { "type": "string", "format": "date-time" },
-          "workflow_id": { "type": "string", "format": "uuid" },
-          "error": { "type": "string", "format": "string" },
-          "input": { "type": "object" },
-          "output": { "type": "object" }
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "started_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ended_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "workflow_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "error": {
+            "type": "string",
+            "format": "string"
+          },
+          "input": {
+            "type": "object"
+          },
+          "output": {
+            "type": "object"
+          }
         },
         "required": [
           "id",
