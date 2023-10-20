@@ -3,6 +3,7 @@
 The Leap Workflows API allows developers to run workflows, fetch workflow runs, and provide other utility functions related to workflow runs. Please use the X-Api-Key for authenticated requests.
 
 [![npm](https://img.shields.io/badge/npm-v1.0.0-blue)](https://www.npmjs.com/package/@leap-ai/workflows/v/1.0.0)
+[![GitHub last commit](https://img.shields.io/github/last-commit/leap-ai/workflows-sdks/tree/main/sdks/typescript.svg)](https://github.com/leap-ai/workflows-sdks/tree/main/sdks/typescript/commits)
 [![More Info](https://img.shields.io/badge/More%20Info-Click%20Here-orange)](https://tryleap.ai/)
 
 ## Table of Contents
@@ -91,7 +92,7 @@ This endpoint lets the user run a specified workflow with the provided workflow 
 
 ```typescript
 const workflowResponse = await leap.workflowRuns.workflow({
-  workflow_id: "123e4567-e89b-12d3-a456-426614174000",
+  workflow_id: "wkf_i3F5UjpZ2Vg",
   webhook_url: "https://myapp.com/webhook",
 });
 ```
@@ -100,7 +101,7 @@ const workflowResponse = await leap.workflowRuns.workflow({
 
 ##### workflow_id: `string`
 
-The UUID of the workflow to be run.
+The ID of the workflow to be run.
 
 ##### webhook_url: `string`
 

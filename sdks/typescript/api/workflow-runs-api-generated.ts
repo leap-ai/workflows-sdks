@@ -19,9 +19,9 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 // @ts-ignore
-import { WorkflowRunEntity } from '../models';
+import { RunWorkflowDto } from '../models';
 // @ts-ignore
-import { WorkflowRunPostRequest } from '../models';
+import { WorkflowRunEntity } from '../models';
 import { paginate } from "../pagination/paginate";
 import { requestBeforeHook } from '../requestBeforeHook';
 /**
@@ -75,13 +75,13 @@ export const WorkflowRunsApiAxiosParamCreator = function (configuration?: Config
         /**
          * This endpoint lets the user run a specified workflow with the provided workflow definition.
          * @summary Run a workflow
-         * @param {WorkflowRunPostRequest} workflowRunPostRequest 
+         * @param {RunWorkflowDto} runWorkflowDto 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        workflow: async (workflowRunPostRequest: WorkflowRunPostRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'workflowRunPostRequest' is not null or undefined
-            assertParamExists('workflow', 'workflowRunPostRequest', workflowRunPostRequest)
+        workflow: async (runWorkflowDto: RunWorkflowDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'runWorkflowDto' is not null or undefined
+            assertParamExists('workflow', 'runWorkflowDto', runWorkflowDto)
             const localVarPath = `/v1/runs`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -104,13 +104,13 @@ export const WorkflowRunsApiAxiosParamCreator = function (configuration?: Config
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             requestBeforeHook({
-                requestBody: workflowRunPostRequest,
+                requestBody: runWorkflowDto,
                 queryParameters: localVarQueryParameter,
                 requestConfig: localVarRequestOptions,
                 path: localVarPath,
                 configuration
             });
-            localVarRequestOptions.data = serializeDataIfNeeded(workflowRunPostRequest, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(runWorkflowDto, localVarRequestOptions, configuration)
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             return {
@@ -206,7 +206,7 @@ export type WorkflowRunsApiGetWorkflowRunRequest = {
  */
 export type WorkflowRunsApiWorkflowRequest = {
     
-} & WorkflowRunPostRequest
+} & RunWorkflowDto
 
 /**
  * WorkflowRunsApiGenerated - object-oriented interface
