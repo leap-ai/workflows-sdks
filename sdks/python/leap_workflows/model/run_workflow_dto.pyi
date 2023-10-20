@@ -24,7 +24,7 @@ import frozendict  # noqa: F401
 from leap_workflows import schemas  # noqa: F401
 
 
-class WorkflowRunPostRequest(
+class RunWorkflowDto(
     schemas.DictSchema
 ):
     """
@@ -38,12 +38,12 @@ class WorkflowRunPostRequest(
         }
         
         class properties:
-            workflow_id = schemas.UUIDSchema
+            workflow_id = schemas.StrSchema
             webhook_url = schemas.StrSchema
         
             @staticmethod
-            def input() -> typing.Type['WorkflowRunPostRequestInput']:
-                return WorkflowRunPostRequestInput
+            def input() -> typing.Type['RunWorkflowDtoInput']:
+                return RunWorkflowDtoInput
             __annotations__ = {
                 "workflow_id": workflow_id,
                 "webhook_url": webhook_url,
@@ -59,7 +59,7 @@ class WorkflowRunPostRequest(
     def __getitem__(self, name: typing_extensions.Literal["webhook_url"]) -> MetaOapg.properties.webhook_url: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["input"]) -> 'WorkflowRunPostRequestInput': ...
+    def __getitem__(self, name: typing_extensions.Literal["input"]) -> 'RunWorkflowDtoInput': ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
@@ -76,7 +76,7 @@ class WorkflowRunPostRequest(
     def get_item_oapg(self, name: typing_extensions.Literal["webhook_url"]) -> typing.Union[MetaOapg.properties.webhook_url, schemas.Unset]: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["input"]) -> typing.Union['WorkflowRunPostRequestInput', schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["input"]) -> typing.Union['RunWorkflowDtoInput', schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
@@ -88,12 +88,12 @@ class WorkflowRunPostRequest(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
-        workflow_id: typing.Union[MetaOapg.properties.workflow_id, str, uuid.UUID, ],
+        workflow_id: typing.Union[MetaOapg.properties.workflow_id, str, ],
         webhook_url: typing.Union[MetaOapg.properties.webhook_url, str, schemas.Unset] = schemas.unset,
-        input: typing.Union['WorkflowRunPostRequestInput', schemas.Unset] = schemas.unset,
+        input: typing.Union['RunWorkflowDtoInput', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
-    ) -> 'WorkflowRunPostRequest':
+    ) -> 'RunWorkflowDto':
         return super().__new__(
             cls,
             *args,
@@ -104,4 +104,4 @@ class WorkflowRunPostRequest(
             **kwargs,
         )
 
-from leap_workflows.model.workflow_run_post_request_input import WorkflowRunPostRequestInput
+from leap_workflows.model.run_workflow_dto_input import RunWorkflowDtoInput

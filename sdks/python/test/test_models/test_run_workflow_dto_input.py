@@ -13,12 +13,12 @@
 import unittest
 
 import leap_workflows
-from leap_workflows.model.workflow_run_post_request import WorkflowRunPostRequest
+from leap_workflows.model.run_workflow_dto_input import RunWorkflowDtoInput
 from leap_workflows import configuration
 
 
-class TestWorkflowRunPostRequest(unittest.TestCase):
-    """WorkflowRunPostRequest unit test stubs"""
+class TestRunWorkflowDtoInput(unittest.TestCase):
+    """RunWorkflowDtoInput unit test stubs"""
     pass
 
 

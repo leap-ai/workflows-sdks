@@ -4,6 +4,7 @@ The Leap Workflows API allows developers to run workflows, fetch workflow runs, 
 
 
 [![PyPI](https://img.shields.io/badge/PyPI-v1.0.0-blue)](https://pypi.org/project/leap-workflows-python-sdk/1.0.0)
+[![GitHub last commit](https://img.shields.io/github/last-commit/leap-ai/workflows-sdks.svg)](https://github.com/leap-ai/workflows-sdks/commits)
 [![README.md](https://img.shields.io/badge/README-Click%20Here-green)](https://github.com/leap-ai/workflows-sdks/tree/main/sdks/python#readme)
 [![More Info](https://img.shields.io/badge/More%20Info-Click%20Here-orange)](https://tryleap.ai/)
 
@@ -44,7 +45,7 @@ leap = Leap(
 try:
     # Get a workflow run
     get_workflow_run_response = leap.workflow_runs.get_workflow_run(
-        workflow_run_id="workflow_run_id_example",
+        workflow_run_id="rnp_x3p27VQk6MyJfLe",
     )
     pprint(get_workflow_run_response.body)
     pprint(get_workflow_run_response.body["id"])
@@ -87,7 +88,7 @@ async def main():
     try:
         # Get a workflow run
         get_workflow_run_response = await leap.workflow_runs.aget_workflow_run(
-            workflow_run_id="workflow_run_id_example",
+            workflow_run_id="rnp_x3p27VQk6MyJfLe",
         )
         pprint(get_workflow_run_response.body)
         pprint(get_workflow_run_response.body["id"])
@@ -125,7 +126,7 @@ This endpoint retrieves the details of a specific workflow run using its `workfl
 
 ```python
 get_workflow_run_response = leap.workflow_runs.get_workflow_run(
-    workflow_run_id="workflow_run_id_example",
+    workflow_run_id="rnp_x3p27VQk6MyJfLe",
 )
 ```
 
@@ -155,7 +156,7 @@ This endpoint lets the user run a specified workflow with the provided workflow 
 
 ```python
 workflow_response = leap.workflow_runs.workflow(
-    workflow_id="123e4567-e89b-12d3-a456-426614174000",
+    workflow_id="wkf_i3F5UjpZ2Vg",
     webhook_url="https://myapp.com/webhook",
     input={
         "first_name": "Sam",
@@ -168,17 +169,17 @@ workflow_response = leap.workflow_runs.workflow(
 
 ##### workflow_id: `str`
 
-The UUID of the workflow to be run.
+The ID of the workflow to be run.
 
 ##### webhook_url: `str`
 
 The URL to which the workflow results should be sent to on completion.
 
-##### input: [`WorkflowRunPostRequestInput`](./leap_workflows/type/workflow_run_post_request_input.py)
+##### input: [`RunWorkflowDtoInput`](./leap_workflows/type/run_workflow_dto_input.py)
 
 #### ⚙️ Request Body
 
-[`WorkflowRunPostRequest`](./leap_workflows/type/workflow_run_post_request.py)
+[`RunWorkflowDto`](./leap_workflows/type/run_workflow_dto.py)
 #### 🔄 Return
 
 [WorkflowRunEntity](./leap_workflows/type/workflow_run_entity.py)

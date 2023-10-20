@@ -32,21 +32,21 @@ import frozendict  # noqa: F401
 
 from leap_workflows import schemas  # noqa: F401
 
-from leap_workflows.model.workflow_run_post_request_input import WorkflowRunPostRequestInput as WorkflowRunPostRequestInputSchema
-from leap_workflows.model.workflow_run_post_request import WorkflowRunPostRequest as WorkflowRunPostRequestSchema
+from leap_workflows.model.run_workflow_dto_input import RunWorkflowDtoInput as RunWorkflowDtoInputSchema
+from leap_workflows.model.run_workflow_dto import RunWorkflowDto as RunWorkflowDtoSchema
 from leap_workflows.model.workflow_run_entity import WorkflowRunEntity as WorkflowRunEntitySchema
 
+from leap_workflows.type.run_workflow_dto_input import RunWorkflowDtoInput
 from leap_workflows.type.workflow_run_entity import WorkflowRunEntity
-from leap_workflows.type.workflow_run_post_request_input import WorkflowRunPostRequestInput
-from leap_workflows.type.workflow_run_post_request import WorkflowRunPostRequest
+from leap_workflows.type.run_workflow_dto import RunWorkflowDto
 
 from . import path
 
 # body param
-SchemaForRequestBodyApplicationJson = WorkflowRunPostRequestSchema
+SchemaForRequestBodyApplicationJson = RunWorkflowDtoSchema
 
 
-request_body_workflow_run_post_request = api_client.RequestBody(
+request_body_run_workflow_dto = api_client.RequestBody(
     content={
         'application/json': api_client.MediaType(
             schema=SchemaForRequestBodyApplicationJson),
@@ -108,7 +108,7 @@ class BaseApi(api_client.Api):
         self,
         workflow_id: str,
         webhook_url: typing.Optional[str] = None,
-        input: typing.Optional[WorkflowRunPostRequestInput] = None,
+        input: typing.Optional[RunWorkflowDtoInput] = None,
     ) -> api_client.MappedArgs:
         args: api_client.MappedArgs = api_client.MappedArgs()
         _body = {}
@@ -163,7 +163,7 @@ class BaseApi(api_client.Api):
             auth_settings=_auth,
             headers=_headers,
         )
-        serialized_data = request_body_workflow_run_post_request.serialize(body, content_type)
+        serialized_data = request_body_run_workflow_dto.serialize(body, content_type)
         if 'fields' in serialized_data:
             _fields = serialized_data['fields']
         elif 'body' in serialized_data:
@@ -275,7 +275,7 @@ class BaseApi(api_client.Api):
             auth_settings=_auth,
             headers=_headers,
         )
-        serialized_data = request_body_workflow_run_post_request.serialize(body, content_type)
+        serialized_data = request_body_run_workflow_dto.serialize(body, content_type)
         if 'fields' in serialized_data:
             _fields = serialized_data['fields']
         elif 'body' in serialized_data:
@@ -323,7 +323,7 @@ class Workflow(BaseApi):
         self,
         workflow_id: str,
         webhook_url: typing.Optional[str] = None,
-        input: typing.Optional[WorkflowRunPostRequestInput] = None,
+        input: typing.Optional[RunWorkflowDtoInput] = None,
     ) -> typing.Union[
         ApiResponseFor200Async,
         api_client.ApiResponseWithoutDeserializationAsync,
@@ -342,7 +342,7 @@ class Workflow(BaseApi):
         self,
         workflow_id: str,
         webhook_url: typing.Optional[str] = None,
-        input: typing.Optional[WorkflowRunPostRequestInput] = None,
+        input: typing.Optional[RunWorkflowDtoInput] = None,
     ) -> typing.Union[
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization,
@@ -363,7 +363,7 @@ class ApiForpost(BaseApi):
         self,
         workflow_id: str,
         webhook_url: typing.Optional[str] = None,
-        input: typing.Optional[WorkflowRunPostRequestInput] = None,
+        input: typing.Optional[RunWorkflowDtoInput] = None,
     ) -> typing.Union[
         ApiResponseFor200Async,
         api_client.ApiResponseWithoutDeserializationAsync,
@@ -382,7 +382,7 @@ class ApiForpost(BaseApi):
         self,
         workflow_id: str,
         webhook_url: typing.Optional[str] = None,
-        input: typing.Optional[WorkflowRunPostRequestInput] = None,
+        input: typing.Optional[RunWorkflowDtoInput] = None,
     ) -> typing.Union[
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization,

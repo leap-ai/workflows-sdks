@@ -45,7 +45,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/WorkflowRunPostRequest"
+                "$ref": "#/components/schemas/RunWorkflowDto"
               }
             }
           }
@@ -87,6 +87,7 @@
             "name": "workflow_run_id",
             "required": true,
             "in": "path",
+            "example": "rnp_x3p27VQk6MyJfLe",
             "schema": {
               "type": "string"
             }
@@ -119,14 +120,14 @@
       }
     },
     "schemas": {
-      "WorkflowRunPostRequest": {
+      "RunWorkflowDto": {
         "type": "object",
         "properties": {
           "workflow_id": {
-            "description": "The UUID of the workflow to be run.",
+            "description": "The ID of the workflow to be run.",
             "type": "string",
-            "format": "uuid",
-            "example": "123e4567-e89b-12d3-a456-426614174000"
+            "format": "",
+            "example": "wkf_i3F5UjpZ2Vg"
           },
           "webhook_url": {
             "description": "The URL to which the workflow results should be sent to on completion.",

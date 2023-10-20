@@ -10,10 +10,17 @@
     Created by: https://tryleap.ai/
 """
 
-from datetime import datetime, date
-import typing
-from enum import Enum
-from typing_extensions import TypedDict, Literal
+import unittest
+
+import leap_workflows
+from leap_workflows.model.run_workflow_dto import RunWorkflowDto
+from leap_workflows import configuration
 
 
-WorkflowRunPostRequestInput = dict
+class TestRunWorkflowDto(unittest.TestCase):
+    """RunWorkflowDto unit test stubs"""
+    pass
+
+
+if __name__ == '__main__':
+    unittest.main()

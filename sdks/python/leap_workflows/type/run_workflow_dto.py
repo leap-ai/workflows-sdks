@@ -15,17 +15,17 @@ import typing
 from enum import Enum
 from typing_extensions import TypedDict, Literal
 
-from leap_workflows.type.workflow_run_post_request_input import WorkflowRunPostRequestInput
+from leap_workflows.type.run_workflow_dto_input import RunWorkflowDtoInput
 
-class RequiredWorkflowRunPostRequest(TypedDict):
-    # The UUID of the workflow to be run.
+class RequiredRunWorkflowDto(TypedDict):
+    # The ID of the workflow to be run.
     workflow_id: str
 
-class OptionalWorkflowRunPostRequest(TypedDict, total=False):
+class OptionalRunWorkflowDto(TypedDict, total=False):
     # The URL to which the workflow results should be sent to on completion.
     webhook_url: str
 
-    input: WorkflowRunPostRequestInput
+    input: RunWorkflowDtoInput
 
-class WorkflowRunPostRequest(RequiredWorkflowRunPostRequest, OptionalWorkflowRunPostRequest):
+class RunWorkflowDto(RequiredRunWorkflowDto, OptionalRunWorkflowDto):
     pass
