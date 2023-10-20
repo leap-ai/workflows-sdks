@@ -1,6 +1,6 @@
 {
   "name": "@leap-ai/workflows",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Client for Leap Workflows API",
   "author": "Konfig",
   "engines": {

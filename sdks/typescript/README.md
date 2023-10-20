@@ -2,7 +2,7 @@
 
 The Leap Workflows API allows developers to run workflows, fetch workflow runs, and provide other utility functions related to workflow runs. Please use the X-Api-Key for authenticated requests.
 
-[![npm](https://img.shields.io/badge/npm-v1.0.0-blue)](https://www.npmjs.com/package/@leap-ai/workflows/v/1.0.0)
+[![npm](https://img.shields.io/badge/npm-v1.0.1-blue)](https://www.npmjs.com/package/@leap-ai/workflows/v/1.0.1)
 [![GitHub last commit](https://img.shields.io/github/last-commit/leap-ai/workflows-sdks/tree/main/sdks/typescript.svg)](https://github.com/leap-ai/workflows-sdks/tree/main/sdks/typescript/commits)
 [![More Info](https://img.shields.io/badge/More%20Info-Click%20Here-orange)](https://tryleap.ai/)
 
