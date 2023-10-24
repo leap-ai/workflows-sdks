@@ -30,7 +30,7 @@ Your request body must include the following;
 
 Once a workflow is initiated, the API will immediately respond with a Workflow Run object. If you've specified a Webhook URL, this object will also be sent in the body of a `POST` request once the workflow has completed or failed.
 
-```ts copy
+```typescript copy
 {
   "id": string; // Unique ID of the workflow run
   "versionId": string; // Version of the workflow being run
