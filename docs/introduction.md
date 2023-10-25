@@ -18,8 +18,8 @@ Your request body must include the following;
 
 ```json copy
 {
-  "workflowId": "123", // Unique ID of the workflow you want to run
-  "webhookUrl": "", // Optional: The URL to receive notifications of workflow completion or failure
+  "workflow_id": "123", // Unique ID of the workflow you want to run
+  "webhook_url": "", // Optional: The URL to receive notifications of workflow completion or failure
   "inputs": {
     "foo": "bar" // Inputs you want to pass to the workflow
   }
@@ -28,17 +28,19 @@ Your request body must include the following;
 
 ## Understanding the Workflow Run Object
 
-Once a workflow is initiated, the API will immediately respond with a Workflow Run object. If you've specified a Webhook URL, this object will also be sent in the body of a `POST` request once the workflow has completed or failed.
+Once a workflow is initiated, the API will immediately respond with a Workflow Run object.
+
+If you've specified a `webhook_url` when submitting your run, this object will also be sent in the body of a `POST` request once the workflow has completed or failed.
 
 ```typescript copy
 {
   "id": string; // Unique ID of the workflow run
-  "versionId": string; // Version of the workflow being run
+  "version_id": string; // Version of the workflow being run
   "status": "completed" | "running" | "failed"; // Current status of the workflow
   "created_at": string; // Date and time when the workflow was initiated
   "started_at": string | null; // Date and time when the workflow actually started, if applicable
   "ended_at": string | null; // Date and time when the workflow ended, if applicable
-  "workflowId": string; // ID of the workflow
+  "workflow_id": string; // ID of the workflow
   "error": string | null; // Any error that occurred during the workflow, or null if the workflow completed successfully
   "input": { // Inputs used in the workflow
    [key: string]: any;
