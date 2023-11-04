@@ -25,7 +25,6 @@ generators:
     version: 1.0.1
     packageName: leap_workflows
     projectName: leap-workflows-python-sdk
-    responseTypeVersion: '1'
     outputDirectory: sdks/python
     clientName: Leap
     pypiApiTokenEnvironmentVariable: PYPI_TOKEN_1
