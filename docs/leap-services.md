@@ -29,9 +29,37 @@ This document outlines the parameters to pass into Leap Services in workflows.
 - **`callback_on_step_end`**: `Callable`, optional - Function called at the end of each denoising step. _This is an advanced feature that may affect the generation process._
 - **`callback_on_step_end_tensor_inputs`**: `List`, optional - Tensor inputs for the `callback_on_step_end` function. _This should be used with a thorough understanding of the tensors involved._
 
+### Example Body
+```json
+{
+  "body": {
+    "prompt": "A fantasy landscape with mountains", // The text prompt for image generation
+    "height": 1024, // Height of the generated image in pixels
+    "width": 1024, // Width of the generated image in pixels
+    "num_inference_steps": 50, // Number of denoising steps
+    "negative_prompt": "No urban elements", // Negative prompt to avoid certain elements
+    "num_images_per_prompt": 1 // Number of images to generate per prompt
+    // ... Other advanced parameters if you wish to pass them in
+  }
+}
+```
+
 ## Musicgen Parameters
 
 - **`prompt`**: `str` - Text to guide the music generation.
 - **`duration`**: `int`, optional - Duration of the generated music piece, defaults to 10 seconds. _This has a maximum of 60 seconds._
 - **`format`**: `str`, optional - The format of the generated music, defaults to "wav".
 - **`melody`**: `str`, optional - Melodic guide for the music generation.
+
+### Example Body
+
+```json
+{
+  "body": {
+    "prompt": "A serene and peaceful melody", // The text prompt for music generation
+    "duration": 10, // Duration of the generated music piece in seconds
+    "format": "wav" // Format of the generated music
+    // ... Other advanced parameters if you wish to pass them in
+  }
+}
+```
