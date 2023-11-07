@@ -6,7 +6,7 @@ specPath: api-fixed.json
 specInputPath: api.json
 portal:
   favicon: favicon.jpg
-  primaryColor: '#008ae6'
+  primaryColor: "#008ae6"
   title: Leap
   logo:
     light: LightMode-BlackLogo.png
@@ -18,6 +18,10 @@ portal:
           links:
             - id: introduction
               path: docs/introduction.md
+        - label: Leap Services
+          links:
+            - id: leap-services
+              path: docs/leap-services.md
   socials:
     website: https://tryleap.ai/
 generators:
@@ -33,7 +37,7 @@ generators:
       repoId: workflows-sdks/tree/main/sdks/python
   typescript:
     version: 1.0.1
-    npmName: '@leap-ai/workflows'
+    npmName: "@leap-ai/workflows"
     outputDirectory: sdks/typescript
     clientName: Leap
     git:
