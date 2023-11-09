@@ -55,7 +55,7 @@ This document should help you navigate and access Leap's new workflows. Feel fre
 
 When building a workflow on Leap you can create different types of actions, actions are essentially integrations on top of services which allow you to call each service with full flexibility while still benefiting.
 
-Currently Leap supports OpenAi, Astria, and Replicate.
+Currently Leap supports OpenAI, Astria, and Replicate.
 
 The schema for each of the services follows the following structure:
 
@@ -106,6 +106,6 @@ The interface is very similar to actions, but with the addition of the `url` and
 
 ## On Service Webhooks
 
-Its important to note that if a service accepts a webhook in the aciton body (e.g. Replicate), Leap workflows makes use of this value. And will ignore your value override it regardless of what you pass in the `body`.
+It's important to note that if a service accepts a webhook in the action body (e.g., Replicate), Leap workflows make use of this value and will ignore any value you pass in the `body`, overriding it regardless of what you specify.
 
-This is because webhooks need for the Leap engine to be aware of job completions. If you'd like to retrieve results, simply provide your `webhook url` when calling the Leap SDK or API, and not as part of step configurations.
+This is because webhooks require the Leap engine to be aware of job completions. If you'd like to retrieve results, simply provide your `webhook url` when calling the Leap SDK or API, rather than as part of step configurations.
