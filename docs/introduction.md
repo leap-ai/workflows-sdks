@@ -106,6 +106,6 @@ The interface is very similar to actions, but with the addition of the `url` and
 
 ## On Service Webhooks
 
-Its important to note that if a service accepts a webhook in the aciton body (e.g. Replicate), Leap workflows makes use of this value. And will ignore your value override it regardless of what you pass in the `body`.
+Its important to note that if a service accepts a webhook in the action body (e.g. Replicate), Leap workflows makes use of this value. And will ignore your value override it regardless of what you pass in the `body`.
 
 This is because webhooks need for the Leap engine to be aware of job completions. If you'd like to retrieve results, simply provide your `webhook url` when calling the Leap SDK or API, and not as part of step configurations.
