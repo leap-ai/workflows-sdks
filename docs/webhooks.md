@@ -64,7 +64,7 @@ It is recommended that you upgrade to webhooks version 2.
 
 Webhook versions are set per Workflow. This means you can have different Workflows using different versions and is something we do for backwards compatibility as we roll out changes to the webhook schema.
 
-You can view your Workflow's active webhook version or upgrade it to a newer version by visiting the Webhook Settings page.\
+You can view your Workflow's active webhook version or upgrade it to a newer version by visiting the Webhook Settings page.
 
 
 <figure><img src=".gitbook/assets/Screenshot 2023-12-30 at 1.22.13 PM.png" alt=""><figcaption></figcaption></figure>
