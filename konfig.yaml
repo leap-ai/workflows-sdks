@@ -17,7 +17,9 @@ portal:
         - label: Documentation
           links:
             - id: introduction
-              path: docs/introduction.md
+              path: docs/README.md
+            - id: webhooks
+              path: docs/webhooks.md
         - label: Leap Services
           links:
             - id: leap-services
