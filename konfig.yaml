@@ -20,10 +20,6 @@ portal:
               path: docs/README.md
             - id: webhooks
               path: docs/webhooks.md
-        - label: Leap Services
-          links:
-            - id: leap-services
-              path: docs/leap-services.md
   socials:
     website: https://tryleap.ai/
 generators:

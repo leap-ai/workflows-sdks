@@ -1,4 +1,4 @@
-# 🔗 Webhooks
+# Webhooks
 
 Leap workflows currently supports two versions of webhooks, with v2 being the latest.
 
