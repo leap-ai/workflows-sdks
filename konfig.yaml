@@ -33,6 +33,7 @@ generators:
     projectName: leap-workflows-python-sdk
     outputDirectory: sdks/python
     clientName: Leap
+    useAiohttp3_8: true
     pypiApiTokenEnvironmentVariable: PYPI_TOKEN_1
     git:
       userId: leap-ai
