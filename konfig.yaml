@@ -38,6 +38,7 @@ generators:
     version: 1.0.1
     npmName: "@leap-ai/workflows"
     outputDirectory: sdks/typescript
+    useAxios0_27_2: true
     clientName: Leap
     git:
       userId: leap-ai
