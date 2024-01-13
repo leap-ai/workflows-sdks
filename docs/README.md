@@ -4,7 +4,7 @@ This document outlines how to call the new Leap workflows API.
 
 ## Authenticating Your Account
 
-To access workflows, you first need to set up an account at `https://alpha.tryleap.ai` and generate an API key. This API key must be included in your request header under the `X-Api-Key` key to authenticate your account.
+To access workflows, you first need to set up an account at `https://app.tryleap.ai` and generate an API key. This API key must be included in your request header under the `X-Api-Key` key to authenticate your account.
 
 ## Initiating a Workflow
 
