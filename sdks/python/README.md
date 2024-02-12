@@ -1,38 +1,44 @@
-# leap-workflows-python-sdk
+<div align="center">
+
+[![Visit Leap Workflows](https://raw.githubusercontent.com/leap-ai/workflows-sdks/HEAD/sdks/python/header.png)](https://www.tryleap.ai/)
+
+# Leap Workflows<a id="leap-workflows"></a>
 
 The Leap Workflows API allows developers to run workflows, fetch workflow runs, and provide other utility functions related to workflow runs. Please use the X-Api-Key for authenticated requests.
 
 
 [![PyPI](https://img.shields.io/badge/PyPI-v1.0.1-blue)](https://pypi.org/project/leap-workflows-python-sdk/1.0.1)
-[![GitHub last commit](https://img.shields.io/github/last-commit/leap-ai/workflows-sdks.svg)](https://github.com/leap-ai/workflows-sdks/commits)
 [![README.md](https://img.shields.io/badge/README-Click%20Here-green)](https://github.com/leap-ai/workflows-sdks/tree/main/sdks/python#readme)
 [![More Info](https://img.shields.io/badge/More%20Info-Click%20Here-orange)](https://tryleap.ai/)
 
-## Table of Contents
+</div>
+
+## Table of Contents<a id="table-of-contents"></a>
 
 <!-- toc -->
 
 - [Requirements](#requirements)
-- [Installing](#installing)
+- [Installation](#installation)
 - [Getting Started](#getting-started)
 - [Async](#async)
+- [Raw HTTP Response](#raw-http-response)
 - [Reference](#reference)
   * [`leap.workflow_runs.get_workflow_run`](#leapworkflow_runsget_workflow_run)
   * [`leap.workflow_runs.workflow`](#leapworkflow_runsworkflow)
 
 <!-- tocstop -->
 
-## Requirements
+## Requirements<a id="requirements"></a>
 
 Python >=3.7
 
-## Installing
+## Installation<a id="installation"></a>
 
 ```sh
 pip install leap-workflows-python-sdk==1.0.1
 ```
 
-## Getting Started
+## Getting Started<a id="getting-started"></a>
 
 ```python
 from pprint import pprint
@@ -45,6 +51,66 @@ leap = Leap(
 try:
     # Get a workflow run
     get_workflow_run_response = leap.workflow_runs.get_workflow_run(
+        workflow_run_id="rnp_x3p27VQk6MyJfLe",
+    )
+    print(get_workflow_run_response)
+except ApiException as e:
+    print("Exception when calling WorkflowRunsApi.get_workflow_run: %s\n" % e)
+    pprint(e.body)
+    pprint(e.headers)
+    pprint(e.status)
+    pprint(e.reason)
+    pprint(e.round_trip_time)
+```
+
+## Async<a id="async"></a>
+
+`async` support is available by prepending `a` to any method.
+
+```python
+import asyncio
+from pprint import pprint
+from leap_workflows import Leap, ApiException
+
+leap = Leap(
+    api_key="YOUR_API_KEY",
+)
+
+
+async def main():
+    try:
+        # Get a workflow run
+        get_workflow_run_response = await leap.workflow_runs.aget_workflow_run(
+            workflow_run_id="rnp_x3p27VQk6MyJfLe",
+        )
+        print(get_workflow_run_response)
+    except ApiException as e:
+        print("Exception when calling WorkflowRunsApi.get_workflow_run: %s\n" % e)
+        pprint(e.body)
+        pprint(e.headers)
+        pprint(e.status)
+        pprint(e.reason)
+        pprint(e.round_trip_time)
+
+
+asyncio.run(main())
+```
+
+## Raw HTTP Response<a id="raw-http-response"></a>
+
+To access raw HTTP response values, use the `.raw` namespace.
+
+```python
+from pprint import pprint
+from leap_workflows import Leap, ApiException
+
+leap = Leap(
+    api_key="YOUR_API_KEY",
+)
+
+try:
+    # Get a workflow run
+    get_workflow_run_response = leap.workflow_runs.raw.get_workflow_run(
         workflow_run_id="rnp_x3p27VQk6MyJfLe",
     )
     pprint(get_workflow_run_response.body)
@@ -70,59 +136,13 @@ except ApiException as e:
     pprint(e.round_trip_time)
 ```
 
-## Async
 
-`async` support is available by prepending `a` to any method.
-
-```python
-import asyncio
-from pprint import pprint
-from leap_workflows import Leap, ApiException
-
-leap = Leap(
-    api_key="YOUR_API_KEY",
-)
-
-
-async def main():
-    try:
-        # Get a workflow run
-        get_workflow_run_response = await leap.workflow_runs.aget_workflow_run(
-            workflow_run_id="rnp_x3p27VQk6MyJfLe",
-        )
-        pprint(get_workflow_run_response.body)
-        pprint(get_workflow_run_response.body["id"])
-        pprint(get_workflow_run_response.body["version_id"])
-        pprint(get_workflow_run_response.body["status"])
-        pprint(get_workflow_run_response.body["created_at"])
-        pprint(get_workflow_run_response.body["started_at"])
-        pprint(get_workflow_run_response.body["ended_at"])
-        pprint(get_workflow_run_response.body["workflow_id"])
-        pprint(get_workflow_run_response.body["error"])
-        pprint(get_workflow_run_response.body["input"])
-        pprint(get_workflow_run_response.body["output"])
-        pprint(get_workflow_run_response.headers)
-        pprint(get_workflow_run_response.status)
-        pprint(get_workflow_run_response.round_trip_time)
-    except ApiException as e:
-        print("Exception when calling WorkflowRunsApi.get_workflow_run: %s\n" % e)
-        pprint(e.body)
-        pprint(e.headers)
-        pprint(e.status)
-        pprint(e.reason)
-        pprint(e.round_trip_time)
-
-
-asyncio.run(main())
-```
-
-
-## Reference
-### `leap.workflow_runs.get_workflow_run`
+## Reference<a id="reference"></a>
+### `leap.workflow_runs.get_workflow_run`<a id="leapworkflow_runsget_workflow_run"></a>
 
 This endpoint retrieves the details of a specific workflow run using its `workflow_run_id`.
 
-#### 🛠️ Usage
+#### 🛠️ Usage<a id="🛠️-usage"></a>
 
 ```python
 get_workflow_run_response = leap.workflow_runs.get_workflow_run(
@@ -130,17 +150,17 @@ get_workflow_run_response = leap.workflow_runs.get_workflow_run(
 )
 ```
 
-#### ⚙️ Parameters
+#### ⚙️ Parameters<a id="⚙️-parameters"></a>
 
-##### workflow_run_id: `str`
+##### workflow_run_id: `str`<a id="workflow_run_id-str"></a>
 
 The ID of the workflow run to retrieve.
 
-#### 🔄 Return
+#### 🔄 Return<a id="🔄-return"></a>
 
-[WorkflowRunEntity](./leap_workflows/type/workflow_run_entity.py)
+[`WorkflowRunEntity`](./leap_workflows/pydantic/workflow_run_entity.py)
 
-#### 🌐 Endpoint
+#### 🌐 Endpoint<a id="🌐-endpoint"></a>
 
 `/v1/runs/{workflow_run_id}` `get`
 
@@ -148,11 +168,11 @@ The ID of the workflow run to retrieve.
 
 ---
 
-### `leap.workflow_runs.workflow`
+### `leap.workflow_runs.workflow`<a id="leapworkflow_runsworkflow"></a>
 
 This endpoint lets the user run a specified workflow with the provided workflow definition.
 
-#### 🛠️ Usage
+#### 🛠️ Usage<a id="🛠️-usage"></a>
 
 ```python
 workflow_response = leap.workflow_runs.workflow(
@@ -165,26 +185,26 @@ workflow_response = leap.workflow_runs.workflow(
 )
 ```
 
-#### ⚙️ Parameters
+#### ⚙️ Parameters<a id="⚙️-parameters"></a>
 
-##### workflow_id: `str`
+##### workflow_id: `str`<a id="workflow_id-str"></a>
 
 The ID of the workflow to be run.
 
-##### webhook_url: `str`
+##### webhook_url: `str`<a id="webhook_url-str"></a>
 
 The URL to which the workflow results should be sent to on completion.
 
-##### input: [`RunWorkflowDtoInput`](./leap_workflows/type/run_workflow_dto_input.py)
+##### input: [`RunWorkflowDtoInput`](./leap_workflows/type/run_workflow_dto_input.py)<a id="input-runworkflowdtoinputleap_workflowstyperun_workflow_dto_inputpy"></a>
 
-#### ⚙️ Request Body
+#### ⚙️ Request Body<a id="⚙️-request-body"></a>
 
 [`RunWorkflowDto`](./leap_workflows/type/run_workflow_dto.py)
-#### 🔄 Return
+#### 🔄 Return<a id="🔄-return"></a>
 
-[WorkflowRunEntity](./leap_workflows/type/workflow_run_entity.py)
+[`WorkflowRunEntity`](./leap_workflows/pydantic/workflow_run_entity.py)
 
-#### 🌐 Endpoint
+#### 🌐 Endpoint<a id="🌐-endpoint"></a>
 
 `/v1/runs` `post`
 
@@ -193,5 +213,5 @@ The URL to which the workflow results should be sent to on completion.
 ---
 
 
-## Author
+## Author<a id="author"></a>
 This Python package is automatically generated by [Konfig](https://konfigthis.com)

@@ -13,6 +13,7 @@
 from dataclasses import dataclass
 import typing_extensions
 import urllib3
+from pydantic import RootModel
 from leap_workflows.request_before_hook import request_before_hook
 import json
 from urllib3._collections import HTTPHeaderDict
@@ -35,6 +36,9 @@ from leap_workflows import schemas  # noqa: F401
 from leap_workflows.model.workflow_run_entity import WorkflowRunEntity as WorkflowRunEntitySchema
 
 from leap_workflows.type.workflow_run_entity import WorkflowRunEntity
+
+from ...api_client import Dictionary
+from leap_workflows.pydantic.workflow_run_entity import WorkflowRunEntity as WorkflowRunEntityPydantic
 
 from . import path
 
@@ -130,9 +134,10 @@ class BaseApi(api_client.Api):
         self,
             path_params: typing.Optional[dict] = {},
         skip_deserialization: bool = True,
-        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        timeout: typing.Optional[typing.Union[float, typing.Tuple]] = None,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
+        **kwargs,
     ) -> typing.Union[
         ApiResponseFor200Async,
         api_client.ApiResponseWithoutDeserializationAsync,
@@ -180,6 +185,7 @@ class BaseApi(api_client.Api):
             headers=_headers,
             auth_settings=_auth,
             timeout=timeout,
+            **kwargs
         )
     
         if stream:
@@ -240,7 +246,7 @@ class BaseApi(api_client.Api):
         self,
             path_params: typing.Optional[dict] = {},
         skip_deserialization: bool = True,
-        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        timeout: typing.Optional[typing.Union[float, typing.Tuple]] = None,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
     ) -> typing.Union[
@@ -315,12 +321,13 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class GetWorkflowRun(BaseApi):
+class GetWorkflowRunRaw(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     async def aget_workflow_run(
         self,
         workflow_run_id: str,
+        **kwargs,
     ) -> typing.Union[
         ApiResponseFor200Async,
         api_client.ApiResponseWithoutDeserializationAsync,
@@ -331,6 +338,7 @@ class GetWorkflowRun(BaseApi):
         )
         return await self._aget_workflow_run_oapg(
             path_params=args.path,
+            **kwargs,
         )
     
     def get_workflow_run(
@@ -347,12 +355,43 @@ class GetWorkflowRun(BaseApi):
             path_params=args.path,
         )
 
+class GetWorkflowRun(BaseApi):
+
+    async def aget_workflow_run(
+        self,
+        workflow_run_id: str,
+        validate: bool = False,
+        **kwargs,
+    ) -> WorkflowRunEntityPydantic:
+        raw_response = await self.raw.aget_workflow_run(
+            workflow_run_id=workflow_run_id,
+            **kwargs,
+        )
+        if validate:
+            return WorkflowRunEntityPydantic(**raw_response.body)
+        return api_client.construct_model_instance(WorkflowRunEntityPydantic, raw_response.body)
+    
+    
+    def get_workflow_run(
+        self,
+        workflow_run_id: str,
+        validate: bool = False,
+    ) -> WorkflowRunEntityPydantic:
+        raw_response = self.raw.get_workflow_run(
+            workflow_run_id=workflow_run_id,
+        )
+        if validate:
+            return WorkflowRunEntityPydantic(**raw_response.body)
+        return api_client.construct_model_instance(WorkflowRunEntityPydantic, raw_response.body)
+
+
 class ApiForget(BaseApi):
     # this class is used by api classes that refer to endpoints by path and http method names
 
     async def aget(
         self,
         workflow_run_id: str,
+        **kwargs,
     ) -> typing.Union[
         ApiResponseFor200Async,
         api_client.ApiResponseWithoutDeserializationAsync,
@@ -363,6 +402,7 @@ class ApiForget(BaseApi):
         )
         return await self._aget_workflow_run_oapg(
             path_params=args.path,
+            **kwargs,
         )
     
     def get(

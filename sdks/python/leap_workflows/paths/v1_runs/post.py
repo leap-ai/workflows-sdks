@@ -13,6 +13,7 @@
 from dataclasses import dataclass
 import typing_extensions
 import urllib3
+from pydantic import RootModel
 from leap_workflows.request_before_hook import request_before_hook
 import json
 from urllib3._collections import HTTPHeaderDict
@@ -39,6 +40,11 @@ from leap_workflows.model.workflow_run_entity import WorkflowRunEntity as Workfl
 from leap_workflows.type.run_workflow_dto_input import RunWorkflowDtoInput
 from leap_workflows.type.workflow_run_entity import WorkflowRunEntity
 from leap_workflows.type.run_workflow_dto import RunWorkflowDto
+
+from ...api_client import Dictionary
+from leap_workflows.pydantic.run_workflow_dto_input import RunWorkflowDtoInput as RunWorkflowDtoInputPydantic
+from leap_workflows.pydantic.workflow_run_entity import WorkflowRunEntity as WorkflowRunEntityPydantic
+from leap_workflows.pydantic.run_workflow_dto import RunWorkflowDto as RunWorkflowDtoPydantic
 
 from . import path
 
@@ -125,10 +131,11 @@ class BaseApi(api_client.Api):
         self,
         body: typing.Any = None,
         skip_deserialization: bool = True,
-        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        timeout: typing.Optional[typing.Union[float, typing.Tuple]] = None,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         content_type: str = 'application/json',
         stream: bool = False,
+        **kwargs,
     ) -> typing.Union[
         ApiResponseFor200Async,
         api_client.ApiResponseWithoutDeserializationAsync,
@@ -178,6 +185,7 @@ class BaseApi(api_client.Api):
             body=body,
             auth_settings=_auth,
             timeout=timeout,
+            **kwargs
         )
     
         if stream:
@@ -238,7 +246,7 @@ class BaseApi(api_client.Api):
         self,
         body: typing.Any = None,
         skip_deserialization: bool = True,
-        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        timeout: typing.Optional[typing.Union[float, typing.Tuple]] = None,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         content_type: str = 'application/json',
         stream: bool = False,
@@ -316,7 +324,7 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class Workflow(BaseApi):
+class WorkflowRaw(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
     async def aworkflow(
@@ -324,6 +332,7 @@ class Workflow(BaseApi):
         workflow_id: str,
         webhook_url: typing.Optional[str] = None,
         input: typing.Optional[RunWorkflowDtoInput] = None,
+        **kwargs,
     ) -> typing.Union[
         ApiResponseFor200Async,
         api_client.ApiResponseWithoutDeserializationAsync,
@@ -336,6 +345,7 @@ class Workflow(BaseApi):
         )
         return await self._aworkflow_oapg(
             body=args.body,
+            **kwargs,
         )
     
     def workflow(
@@ -356,6 +366,44 @@ class Workflow(BaseApi):
             body=args.body,
         )
 
+class Workflow(BaseApi):
+
+    async def aworkflow(
+        self,
+        workflow_id: str,
+        webhook_url: typing.Optional[str] = None,
+        input: typing.Optional[RunWorkflowDtoInput] = None,
+        validate: bool = False,
+        **kwargs,
+    ) -> WorkflowRunEntityPydantic:
+        raw_response = await self.raw.aworkflow(
+            workflow_id=workflow_id,
+            webhook_url=webhook_url,
+            input=input,
+            **kwargs,
+        )
+        if validate:
+            return WorkflowRunEntityPydantic(**raw_response.body)
+        return api_client.construct_model_instance(WorkflowRunEntityPydantic, raw_response.body)
+    
+    
+    def workflow(
+        self,
+        workflow_id: str,
+        webhook_url: typing.Optional[str] = None,
+        input: typing.Optional[RunWorkflowDtoInput] = None,
+        validate: bool = False,
+    ) -> WorkflowRunEntityPydantic:
+        raw_response = self.raw.workflow(
+            workflow_id=workflow_id,
+            webhook_url=webhook_url,
+            input=input,
+        )
+        if validate:
+            return WorkflowRunEntityPydantic(**raw_response.body)
+        return api_client.construct_model_instance(WorkflowRunEntityPydantic, raw_response.body)
+
+
 class ApiForpost(BaseApi):
     # this class is used by api classes that refer to endpoints by path and http method names
 
@@ -364,6 +412,7 @@ class ApiForpost(BaseApi):
         workflow_id: str,
         webhook_url: typing.Optional[str] = None,
         input: typing.Optional[RunWorkflowDtoInput] = None,
+        **kwargs,
     ) -> typing.Union[
         ApiResponseFor200Async,
         api_client.ApiResponseWithoutDeserializationAsync,
@@ -376,6 +425,7 @@ class ApiForpost(BaseApi):
         )
         return await self._aworkflow_oapg(
             body=args.body,
+            **kwargs,
         )
     
     def post(

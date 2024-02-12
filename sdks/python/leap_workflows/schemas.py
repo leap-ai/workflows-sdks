@@ -12,6 +12,7 @@
 
 from collections import defaultdict
 from datetime import date, datetime, timedelta  # noqa: F401
+import pydantic
 import functools
 import decimal
 import io
@@ -387,7 +388,13 @@ class Schema:
         FileIO = openapi binary type and the user inputs a file
         bytes = openapi binary type and the user inputs bytes
         """
-        return super(Schema, cls).__new__(cls, arg)
+        try:
+            # In some cases (e.g. an int with enforced minimum value) this will throw an error:
+            # TypeError('object.__new__(DynamicSchema) is not safe, use DynamicSchema.__new__()')
+            res = super(Schema, cls).__new__(cls, arg)
+        except TypeError:
+            res = cls.__new__(cls, arg)
+        return res
 
     @classmethod
     def from_openapi_data_oapg(
@@ -1802,6 +1809,8 @@ def cast_to_allowed_types(
         return bytes(arg)
     elif isinstance(arg, (io.FileIO, io.BufferedReader)):
         return FileIO(arg)
+    elif isinstance(arg, pydantic.BaseModel):
+        return cast_to_allowed_types({ k:v for k, v in dict(arg).items() if v is not None }, from_server, validated_path_to_schemas, path_to_item)
     raise ValueError('Invalid type passed in got input={} type={}'.format(arg, type(arg)))
 
 
