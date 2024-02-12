@@ -4,6 +4,10 @@ outputDirectory: /tmp/leap-workflows-sdks-out
 specRemotePath: https://api.workflows.tryleap.ai/api-json
 specPath: api-fixed.json
 specInputPath: api.json
+readmeHeader:
+  image: header.png
+  title: Leap Workflows
+  url: https://www.tryleap.ai/
 portal:
   favicon: favicon.jpg
   primaryColor: "#008ae6"
@@ -29,7 +33,6 @@ generators:
     projectName: leap-workflows-python-sdk
     outputDirectory: sdks/python
     clientName: Leap
-    useAiohttp3_8: true
     pypiApiTokenEnvironmentVariable: PYPI_TOKEN_1
     git:
       userId: leap-ai
@@ -38,7 +41,6 @@ generators:
     version: 1.0.1
     npmName: "@leap-ai/workflows"
     outputDirectory: sdks/typescript
-    useAxios0_27_2: true
     clientName: Leap
     git:
       userId: leap-ai
