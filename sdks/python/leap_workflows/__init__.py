@@ -12,7 +12,7 @@
     Created by: https://tryleap.ai/
 """
 
-__version__ = "1.0.1"
+__version__ = "2.0.0"
 
 # import ApiClient
 from leap_workflows.api_client import ApiClient
