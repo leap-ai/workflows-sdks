@@ -8,8 +8,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/leap-ai/workflows-sdks/tree/main/sdks/typescript"
+    "url": "https://github.com/leap-ai/workflows-sdks.git",
+    "directory": "sdks/typescript"
   },
+  "homepage": "https://github.com/leap-ai/workflows-sdks/tree/HEAD/sdks/typescript#readme",
   "keywords": [
     "axios",
     "typescript",
@@ -29,14 +31,16 @@
     "test": "jest"
   },
   "dependencies": {
-    "axios": "0.27.2"
+    "axios": "1.6.4"
   },
   "resolutions": {
-    "semver": "^7.5.2"
+    "semver": "^7.5.2",
+    "@babel/traverse": "^7.23.2"
   },
   "devDependencies": {
+    "@jest/types": "^29.6.3",
     "@types/jest": "^29.2.4",
-    "@types/node": "^12.11.5",
+    "@types/node": "^18",
     "jest": "^29.3.1",
     "ts-jest": "^29.0.3",
     "ts-loader": "^9.4.4",
