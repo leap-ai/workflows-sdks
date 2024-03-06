@@ -37,3 +37,5 @@ class WorkflowRunEntity(BaseModel):
     input: typing.Dict[str, typing.Union[bool, date, datetime, dict, float, int, list, str, None]] = Field(alias='input')
 
     output: typing.Dict[str, typing.Union[bool, date, datetime, dict, float, int, list, str, None]] = Field(alias='output')
+    class Config:
+        arbitrary_types_allowed = True

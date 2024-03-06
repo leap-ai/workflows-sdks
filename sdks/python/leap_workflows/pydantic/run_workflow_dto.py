@@ -26,3 +26,5 @@ class RunWorkflowDto(BaseModel):
     webhook_url: typing.Optional[str] = Field(None, alias='webhook_url')
 
     input: typing.Optional[RunWorkflowDtoInput] = Field(None, alias='input')
+    class Config:
+        arbitrary_types_allowed = True
