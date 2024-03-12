@@ -21,6 +21,10 @@
     {
       "description": "Endpoints related to workflow run operations",
       "name": "Workflow Runs"
+    },
+    {
+      "description": "Endpoints related to bulk workflow run operations",
+      "name": "Bulk Workflow Runs"
     }
   ],
   "paths": {
@@ -45,7 +49,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RunWorkflowDto"
+                "$ref": "#/components/schemas/RunWorkflowSchema"
               }
             }
           }
@@ -56,7 +60,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkflowRunEntity"
+                  "$ref": "#/components/schemas/WorkflowRunSchema"
                 }
               }
             }
@@ -99,7 +103,93 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkflowRunEntity"
+                  "$ref": "#/components/schemas/WorkflowRunSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        }
+      }
+    },
+    "/v1/runs/bulk": {
+      "post": {
+        "tags": [
+          "Bulk Workflow Runs"
+        ],
+        "summary": "Run a workflow in bulk",
+        "operationId": "BulkWorkflowRuns_runBulk",
+        "security": [
+          {
+            "api_key": [
+            ]
+          }
+        ],
+        "description": "This endpoint lets the user run a specified workflow with the provided csv in bulk.",
+        "parameters": [
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RunBulkWorkflowSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The bulk workflow run has been successfully initiated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkRunSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        }
+      }
+    },
+    "/v1/runs/bulk/{bulk_run_id}": {
+      "get": {
+        "tags": [
+          "Bulk Workflow Runs"
+        ],
+        "summary": "Get a bulk workflow run",
+        "operationId": "BulkWorkflowRuns_getBulk",
+        "security": [
+          {
+            "api_key": [
+            ]
+          }
+        ],
+        "description": "This endpoint retrieves the details of a specific bulk workflow run using its `bulk_run_id`.",
+        "parameters": [
+          {
+            "description": "The ID of the bulk run to retrieve.",
+            "name": "bulk_run_id",
+            "required": true,
+            "in": "path",
+            "example": "bulk_9Nmenl7rxIu2FiSsnqNyTe9G",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The bulk run details have been successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkRunSchema"
                 }
               }
             }
@@ -120,7 +210,7 @@
       }
     },
     "schemas": {
-      "RunWorkflowDto": {
+      "RunWorkflowSchema": {
         "type": "object",
         "properties": {
           "workflow_id": {
@@ -148,16 +238,14 @@
           "workflow_id"
         ]
       },
-      "WorkflowRunEntity": {
+      "WorkflowRunSchema": {
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
-            "format": "uuid"
+            "type": "string"
           },
           "version_id": {
-            "type": "string",
-            "format": "uuid"
+            "type": "string"
           },
           "status": {
             "type": "string",
@@ -168,30 +256,35 @@
             ]
           },
           "created_at": {
-            "type": "string",
-            "format": "date-time"
+            "type": "string"
           },
           "started_at": {
             "type": "string",
-            "format": "date-time"
+            "nullable": true,
+            "default": null
           },
           "ended_at": {
             "type": "string",
-            "format": "date-time"
+            "nullable": true,
+            "default": null
           },
           "workflow_id": {
-            "type": "string",
-            "format": "uuid"
+            "type": "string"
           },
           "error": {
             "type": "string",
-            "format": "string"
+            "nullable": true,
+            "default": null
           },
           "input": {
-            "type": "object"
+            "type": "object",
+            "nullable": true,
+            "default": null
           },
           "output": {
-            "type": "object"
+            "type": "object",
+            "nullable": true,
+            "default": null
           }
         },
         "required": [
@@ -205,6 +298,84 @@
           "error",
           "input",
           "output"
+        ]
+      },
+      "RunBulkWorkflowSchema": {
+        "type": "object",
+        "properties": {
+          "workflow_id": {
+            "description": "The ID of the workflow to be run in bulk.",
+            "type": "string",
+            "format": "",
+            "example": "wkf_i3F5UjpZ2Vg"
+          },
+          "input_csv_url": {
+            "description": "A CSV file containing the input data for the bulk run. Each row should contain the input data for a single run.",
+            "type": "string",
+            "format": "",
+            "example": "https://myapp.com/input.csv"
+          },
+          "webhook_url": {
+            "description": "The URL to which the bulk run results should be sent to on completion.",
+            "type": "string",
+            "example": "https://myapp.com/webhook"
+          }
+        },
+        "required": [
+          "workflow_id",
+          "input_csv_url"
+        ]
+      },
+      "BulkRunSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "version_id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "completed",
+              "running",
+              "failed"
+            ]
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "workflow_id": {
+            "type": "string"
+          },
+          "input_csv_url": {
+            "type": "string"
+          },
+          "output_csv_url": {
+            "type": "string",
+            "nullable": true,
+            "default": null
+          },
+          "error": {
+            "type": "string",
+            "nullable": true,
+            "default": null
+          },
+          "row_count": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "version_id",
+          "status",
+          "created_at",
+          "workflow_id",
+          "input_csv_url",
+          "output_csv_url",
+          "error",
+          "row_count"
         ]
       }
     }

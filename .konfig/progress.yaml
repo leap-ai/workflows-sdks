@@ -3,6 +3,10 @@ examples_2: {}
 examples_3: {}
 fixOnlyOneTagName: false
 operationIds:
+  /v1/runs/bulk:
+    post: BulkWorkflowRuns_runBulk
+  /v1/runs/bulk/{bulk_run_id}:
+    get: BulkWorkflowRuns_getBulk
   /v1/runs/{workflow_run_id}:
     get: WorkflowRuns_getWorkflowRun
 operationTags: {}
