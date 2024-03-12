@@ -11,6 +11,8 @@
 # import sys
 # sys.setrecursionlimit(n)
 
-from leap_workflows.model.run_workflow_dto import RunWorkflowDto
-from leap_workflows.model.run_workflow_dto_input import RunWorkflowDtoInput
-from leap_workflows.model.workflow_run_entity import WorkflowRunEntity
+from leap_workflows.model.bulk_run_schema import BulkRunSchema
+from leap_workflows.model.run_bulk_workflow_schema import RunBulkWorkflowSchema
+from leap_workflows.model.run_workflow_schema import RunWorkflowSchema
+from leap_workflows.model.run_workflow_schema_input import RunWorkflowSchemaInput
+from leap_workflows.model.workflow_run_schema import WorkflowRunSchema

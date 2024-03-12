@@ -15,17 +15,28 @@ import typing
 from enum import Enum
 from typing_extensions import TypedDict, Literal, TYPE_CHECKING
 
-from leap_workflows.type.run_workflow_dto_input import RunWorkflowDtoInput
 
-class RequiredRunWorkflowDto(TypedDict):
-    # The ID of the workflow to be run.
+class RequiredBulkRunSchema(TypedDict):
+    id: str
+
+    version_id: str
+
+    status: str
+
+    created_at: str
+
     workflow_id: str
 
-class OptionalRunWorkflowDto(TypedDict, total=False):
-    # The URL to which the workflow results should be sent to on completion.
-    webhook_url: str
+    input_csv_url: str
 
-    input: RunWorkflowDtoInput
+    output_csv_url: typing.Optional[str]
 
-class RunWorkflowDto(RequiredRunWorkflowDto, OptionalRunWorkflowDto):
+    error: typing.Optional[str]
+
+    row_count: typing.Union[int, float]
+
+class OptionalBulkRunSchema(TypedDict, total=False):
+    pass
+
+class BulkRunSchema(RequiredBulkRunSchema, OptionalBulkRunSchema):
     pass

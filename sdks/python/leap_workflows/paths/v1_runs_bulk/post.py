@@ -33,55 +33,43 @@ import frozendict  # noqa: F401
 
 from leap_workflows import schemas  # noqa: F401
 
-from leap_workflows.model.workflow_run_schema import WorkflowRunSchema as WorkflowRunSchemaSchema
+from leap_workflows.model.run_bulk_workflow_schema import RunBulkWorkflowSchema as RunBulkWorkflowSchemaSchema
+from leap_workflows.model.bulk_run_schema import BulkRunSchema as BulkRunSchemaSchema
 
-from leap_workflows.type.workflow_run_schema import WorkflowRunSchema
+from leap_workflows.type.bulk_run_schema import BulkRunSchema
+from leap_workflows.type.run_bulk_workflow_schema import RunBulkWorkflowSchema
 
 from ...api_client import Dictionary
-from leap_workflows.pydantic.workflow_run_schema import WorkflowRunSchema as WorkflowRunSchemaPydantic
+from leap_workflows.pydantic.bulk_run_schema import BulkRunSchema as BulkRunSchemaPydantic
+from leap_workflows.pydantic.run_bulk_workflow_schema import RunBulkWorkflowSchema as RunBulkWorkflowSchemaPydantic
 
 from . import path
 
-# Path params
-WorkflowRunIdSchema = schemas.StrSchema
-RequestRequiredPathParams = typing_extensions.TypedDict(
-    'RequestRequiredPathParams',
-    {
-        'workflow_run_id': typing.Union[WorkflowRunIdSchema, str, ],
-    }
-)
-RequestOptionalPathParams = typing_extensions.TypedDict(
-    'RequestOptionalPathParams',
-    {
+# body param
+SchemaForRequestBodyApplicationJson = RunBulkWorkflowSchemaSchema
+
+
+request_body_run_bulk_workflow_schema = api_client.RequestBody(
+    content={
+        'application/json': api_client.MediaType(
+            schema=SchemaForRequestBodyApplicationJson),
     },
-    total=False
-)
-
-
-class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
-    pass
-
-
-request_path_workflow_run_id = api_client.PathParameter(
-    name="workflow_run_id",
-    style=api_client.ParameterStyle.SIMPLE,
-    schema=WorkflowRunIdSchema,
     required=True,
 )
 _auth = [
     'api_key',
 ]
-SchemaFor200ResponseBodyApplicationJson = WorkflowRunSchemaSchema
+SchemaFor200ResponseBodyApplicationJson = BulkRunSchemaSchema
 
 
 @dataclass
 class ApiResponseFor200(api_client.ApiResponse):
-    body: WorkflowRunSchema
+    body: BulkRunSchema
 
 
 @dataclass
 class ApiResponseFor200Async(api_client.AsyncApiResponse):
-    body: WorkflowRunSchema
+    body: BulkRunSchema
 
 
 _response_for_200 = api_client.OpenApiResponse(
@@ -119,23 +107,30 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def _get_workflow_run_mapped_args(
+    def _run_bulk_mapped_args(
         self,
-        workflow_run_id: str,
+        workflow_id: str,
+        input_csv_url: str,
+        webhook_url: typing.Optional[str] = None,
     ) -> api_client.MappedArgs:
         args: api_client.MappedArgs = api_client.MappedArgs()
-        _path_params = {}
-        if workflow_run_id is not None:
-            _path_params["workflow_run_id"] = workflow_run_id
-        args.path = _path_params
+        _body = {}
+        if workflow_id is not None:
+            _body["workflow_id"] = workflow_id
+        if input_csv_url is not None:
+            _body["input_csv_url"] = input_csv_url
+        if webhook_url is not None:
+            _body["webhook_url"] = webhook_url
+        args.body = _body
         return args
 
-    async def _aget_workflow_run_oapg(
+    async def _arun_bulk_oapg(
         self,
-            path_params: typing.Optional[dict] = {},
+        body: typing.Any = None,
         skip_deserialization: bool = True,
         timeout: typing.Optional[typing.Union[float, typing.Tuple]] = None,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        content_type: str = 'application/json',
         stream: bool = False,
         **kwargs,
     ) -> typing.Union[
@@ -144,46 +139,48 @@ class BaseApi(api_client.Api):
         AsyncGeneratorResponse,
     ]:
         """
-        Get a workflow run
+        Run a workflow in bulk
         :param skip_deserialization: If true then api_response.response will be set but
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self._verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
         used_path = path.value
-    
-        _path_params = {}
-        for parameter in (
-            request_path_workflow_run_id,
-        ):
-            parameter_data = path_params.get(parameter.name, schemas.unset)
-            if parameter_data is schemas.unset:
-                continue
-            serialized_data = parameter.serialize(parameter_data)
-            _path_params.update(serialized_data)
-    
-        for k, v in _path_params.items():
-            used_path = used_path.replace('{%s}' % k, v)
     
         _headers = HTTPHeaderDict()
         # TODO add cookie handling
         if accept_content_types:
             for accept_content_type in accept_content_types:
                 _headers.add('Accept', accept_content_type)
-        method = 'get'.upper()
+        method = 'post'.upper()
+        _headers.add('Content-Type', content_type)
+    
+        if body is schemas.unset:
+            raise exceptions.ApiValueError(
+                'The required body parameter has an invalid value of: unset. Set a valid value instead')
+        _fields = None
+        _body = None
         request_before_hook(
             resource_path=used_path,
             method=method,
             configuration=self.api_client.configuration,
-            path_template='/v1/runs/{workflow_run_id}',
+            path_template='/v1/runs/bulk',
+            body=body,
             auth_settings=_auth,
             headers=_headers,
         )
+        serialized_data = request_body_run_bulk_workflow_schema.serialize(body, content_type)
+        if 'fields' in serialized_data:
+            _fields = serialized_data['fields']
+        elif 'body' in serialized_data:
+            _body = serialized_data['body']
     
         response = await self.api_client.async_call_api(
             resource_path=used_path,
             method=method,
             headers=_headers,
+            fields=_fields,
+            serialized_body=_body,
+            body=body,
             auth_settings=_auth,
             timeout=timeout,
             **kwargs
@@ -243,58 +240,61 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-    def _get_workflow_run_oapg(
+    def _run_bulk_oapg(
         self,
-            path_params: typing.Optional[dict] = {},
+        body: typing.Any = None,
         skip_deserialization: bool = True,
         timeout: typing.Optional[typing.Union[float, typing.Tuple]] = None,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        content_type: str = 'application/json',
         stream: bool = False,
     ) -> typing.Union[
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization,
     ]:
         """
-        Get a workflow run
+        Run a workflow in bulk
         :param skip_deserialization: If true then api_response.response will be set but
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
         """
-        self._verify_typed_dict_inputs_oapg(RequestPathParams, path_params)
         used_path = path.value
-    
-        _path_params = {}
-        for parameter in (
-            request_path_workflow_run_id,
-        ):
-            parameter_data = path_params.get(parameter.name, schemas.unset)
-            if parameter_data is schemas.unset:
-                continue
-            serialized_data = parameter.serialize(parameter_data)
-            _path_params.update(serialized_data)
-    
-        for k, v in _path_params.items():
-            used_path = used_path.replace('{%s}' % k, v)
     
         _headers = HTTPHeaderDict()
         # TODO add cookie handling
         if accept_content_types:
             for accept_content_type in accept_content_types:
                 _headers.add('Accept', accept_content_type)
-        method = 'get'.upper()
+        method = 'post'.upper()
+        _headers.add('Content-Type', content_type)
+    
+        if body is schemas.unset:
+            raise exceptions.ApiValueError(
+                'The required body parameter has an invalid value of: unset. Set a valid value instead')
+        _fields = None
+        _body = None
         request_before_hook(
             resource_path=used_path,
             method=method,
             configuration=self.api_client.configuration,
-            path_template='/v1/runs/{workflow_run_id}',
+            path_template='/v1/runs/bulk',
+            body=body,
             auth_settings=_auth,
             headers=_headers,
         )
+        serialized_data = request_body_run_bulk_workflow_schema.serialize(body, content_type)
+        if 'fields' in serialized_data:
+            _fields = serialized_data['fields']
+        elif 'body' in serialized_data:
+            _body = serialized_data['body']
     
         response = self.api_client.call_api(
             resource_path=used_path,
             method=method,
             headers=_headers,
+            fields=_fields,
+            serialized_body=_body,
+            body=body,
             auth_settings=_auth,
             timeout=timeout,
         )
@@ -323,101 +323,125 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class GetWorkflowRunRaw(BaseApi):
+class RunBulkRaw(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
-    async def aget_workflow_run(
+    async def arun_bulk(
         self,
-        workflow_run_id: str,
+        workflow_id: str,
+        input_csv_url: str,
+        webhook_url: typing.Optional[str] = None,
         **kwargs,
     ) -> typing.Union[
         ApiResponseFor200Async,
         api_client.ApiResponseWithoutDeserializationAsync,
         AsyncGeneratorResponse,
     ]:
-        args = self._get_workflow_run_mapped_args(
-            workflow_run_id=workflow_run_id,
+        args = self._run_bulk_mapped_args(
+            workflow_id=workflow_id,
+            input_csv_url=input_csv_url,
+            webhook_url=webhook_url,
         )
-        return await self._aget_workflow_run_oapg(
-            path_params=args.path,
+        return await self._arun_bulk_oapg(
+            body=args.body,
             **kwargs,
         )
     
-    def get_workflow_run(
+    def run_bulk(
         self,
-        workflow_run_id: str,
+        workflow_id: str,
+        input_csv_url: str,
+        webhook_url: typing.Optional[str] = None,
     ) -> typing.Union[
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization,
     ]:
-        args = self._get_workflow_run_mapped_args(
-            workflow_run_id=workflow_run_id,
+        args = self._run_bulk_mapped_args(
+            workflow_id=workflow_id,
+            input_csv_url=input_csv_url,
+            webhook_url=webhook_url,
         )
-        return self._get_workflow_run_oapg(
-            path_params=args.path,
+        return self._run_bulk_oapg(
+            body=args.body,
         )
 
-class GetWorkflowRun(BaseApi):
+class RunBulk(BaseApi):
 
-    async def aget_workflow_run(
+    async def arun_bulk(
         self,
-        workflow_run_id: str,
+        workflow_id: str,
+        input_csv_url: str,
+        webhook_url: typing.Optional[str] = None,
         validate: bool = False,
         **kwargs,
-    ) -> WorkflowRunSchemaPydantic:
-        raw_response = await self.raw.aget_workflow_run(
-            workflow_run_id=workflow_run_id,
+    ) -> BulkRunSchemaPydantic:
+        raw_response = await self.raw.arun_bulk(
+            workflow_id=workflow_id,
+            input_csv_url=input_csv_url,
+            webhook_url=webhook_url,
             **kwargs,
         )
         if validate:
-            return WorkflowRunSchemaPydantic(**raw_response.body)
-        return api_client.construct_model_instance(WorkflowRunSchemaPydantic, raw_response.body)
+            return BulkRunSchemaPydantic(**raw_response.body)
+        return api_client.construct_model_instance(BulkRunSchemaPydantic, raw_response.body)
     
     
-    def get_workflow_run(
+    def run_bulk(
         self,
-        workflow_run_id: str,
+        workflow_id: str,
+        input_csv_url: str,
+        webhook_url: typing.Optional[str] = None,
         validate: bool = False,
-    ) -> WorkflowRunSchemaPydantic:
-        raw_response = self.raw.get_workflow_run(
-            workflow_run_id=workflow_run_id,
+    ) -> BulkRunSchemaPydantic:
+        raw_response = self.raw.run_bulk(
+            workflow_id=workflow_id,
+            input_csv_url=input_csv_url,
+            webhook_url=webhook_url,
         )
         if validate:
-            return WorkflowRunSchemaPydantic(**raw_response.body)
-        return api_client.construct_model_instance(WorkflowRunSchemaPydantic, raw_response.body)
+            return BulkRunSchemaPydantic(**raw_response.body)
+        return api_client.construct_model_instance(BulkRunSchemaPydantic, raw_response.body)
 
 
-class ApiForget(BaseApi):
+class ApiForpost(BaseApi):
     # this class is used by api classes that refer to endpoints by path and http method names
 
-    async def aget(
+    async def apost(
         self,
-        workflow_run_id: str,
+        workflow_id: str,
+        input_csv_url: str,
+        webhook_url: typing.Optional[str] = None,
         **kwargs,
     ) -> typing.Union[
         ApiResponseFor200Async,
         api_client.ApiResponseWithoutDeserializationAsync,
         AsyncGeneratorResponse,
     ]:
-        args = self._get_workflow_run_mapped_args(
-            workflow_run_id=workflow_run_id,
+        args = self._run_bulk_mapped_args(
+            workflow_id=workflow_id,
+            input_csv_url=input_csv_url,
+            webhook_url=webhook_url,
         )
-        return await self._aget_workflow_run_oapg(
-            path_params=args.path,
+        return await self._arun_bulk_oapg(
+            body=args.body,
             **kwargs,
         )
     
-    def get(
+    def post(
         self,
-        workflow_run_id: str,
+        workflow_id: str,
+        input_csv_url: str,
+        webhook_url: typing.Optional[str] = None,
     ) -> typing.Union[
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization,
     ]:
-        args = self._get_workflow_run_mapped_args(
-            workflow_run_id=workflow_run_id,
+        args = self._run_bulk_mapped_args(
+            workflow_id=workflow_id,
+            input_csv_url=input_csv_url,
+            webhook_url=webhook_url,
         )
-        return self._get_workflow_run_oapg(
-            path_params=args.path,
+        return self._run_bulk_oapg(
+            body=args.body,
         )
 

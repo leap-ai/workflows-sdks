@@ -33,21 +33,19 @@ import frozendict  # noqa: F401
 
 from leap_workflows import schemas  # noqa: F401
 
-from leap_workflows.model.workflow_run_schema import WorkflowRunSchema as WorkflowRunSchemaSchema
+from leap_workflows.model.bulk_run_schema import BulkRunSchema as BulkRunSchemaSchema
 
-from leap_workflows.type.workflow_run_schema import WorkflowRunSchema
+from leap_workflows.type.bulk_run_schema import BulkRunSchema
 
 from ...api_client import Dictionary
-from leap_workflows.pydantic.workflow_run_schema import WorkflowRunSchema as WorkflowRunSchemaPydantic
-
-from . import path
+from leap_workflows.pydantic.bulk_run_schema import BulkRunSchema as BulkRunSchemaPydantic
 
 # Path params
-WorkflowRunIdSchema = schemas.StrSchema
+BulkRunIdSchema = schemas.StrSchema
 RequestRequiredPathParams = typing_extensions.TypedDict(
     'RequestRequiredPathParams',
     {
-        'workflow_run_id': typing.Union[WorkflowRunIdSchema, str, ],
+        'bulk_run_id': typing.Union[BulkRunIdSchema, str, ],
     }
 )
 RequestOptionalPathParams = typing_extensions.TypedDict(
@@ -62,26 +60,23 @@ class RequestPathParams(RequestRequiredPathParams, RequestOptionalPathParams):
     pass
 
 
-request_path_workflow_run_id = api_client.PathParameter(
-    name="workflow_run_id",
+request_path_bulk_run_id = api_client.PathParameter(
+    name="bulk_run_id",
     style=api_client.ParameterStyle.SIMPLE,
-    schema=WorkflowRunIdSchema,
+    schema=BulkRunIdSchema,
     required=True,
 )
-_auth = [
-    'api_key',
-]
-SchemaFor200ResponseBodyApplicationJson = WorkflowRunSchemaSchema
+SchemaFor200ResponseBodyApplicationJson = BulkRunSchemaSchema
 
 
 @dataclass
 class ApiResponseFor200(api_client.ApiResponse):
-    body: WorkflowRunSchema
+    body: BulkRunSchema
 
 
 @dataclass
 class ApiResponseFor200Async(api_client.AsyncApiResponse):
-    body: WorkflowRunSchema
+    body: BulkRunSchema
 
 
 _response_for_200 = api_client.OpenApiResponse(
@@ -108,10 +103,6 @@ _response_for_401 = api_client.OpenApiResponse(
     response_cls=ApiResponseFor401,
     response_cls_async=ApiResponseFor401Async,
 )
-_status_code_to_response = {
-    '200': _response_for_200,
-    '401': _response_for_401,
-}
 _all_accept_content_types = (
     'application/json',
 )
@@ -119,18 +110,18 @@ _all_accept_content_types = (
 
 class BaseApi(api_client.Api):
 
-    def _get_workflow_run_mapped_args(
+    def _get_bulk_mapped_args(
         self,
-        workflow_run_id: str,
+        bulk_run_id: str,
     ) -> api_client.MappedArgs:
         args: api_client.MappedArgs = api_client.MappedArgs()
         _path_params = {}
-        if workflow_run_id is not None:
-            _path_params["workflow_run_id"] = workflow_run_id
+        if bulk_run_id is not None:
+            _path_params["bulk_run_id"] = bulk_run_id
         args.path = _path_params
         return args
 
-    async def _aget_workflow_run_oapg(
+    async def _aget_bulk_oapg(
         self,
             path_params: typing.Optional[dict] = {},
         skip_deserialization: bool = True,
@@ -144,7 +135,7 @@ class BaseApi(api_client.Api):
         AsyncGeneratorResponse,
     ]:
         """
-        Get a workflow run
+        Get a bulk workflow run
         :param skip_deserialization: If true then api_response.response will be set but
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
@@ -154,7 +145,7 @@ class BaseApi(api_client.Api):
     
         _path_params = {}
         for parameter in (
-            request_path_workflow_run_id,
+            request_path_bulk_run_id,
         ):
             parameter_data = path_params.get(parameter.name, schemas.unset)
             if parameter_data is schemas.unset:
@@ -175,7 +166,7 @@ class BaseApi(api_client.Api):
             resource_path=used_path,
             method=method,
             configuration=self.api_client.configuration,
-            path_template='/v1/runs/{workflow_run_id}',
+            path_template='/v1/runs/bulk/{bulk_run_id}',
             auth_settings=_auth,
             headers=_headers,
         )
@@ -243,7 +234,7 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-    def _get_workflow_run_oapg(
+    def _get_bulk_oapg(
         self,
             path_params: typing.Optional[dict] = {},
         skip_deserialization: bool = True,
@@ -255,7 +246,7 @@ class BaseApi(api_client.Api):
         api_client.ApiResponseWithoutDeserialization,
     ]:
         """
-        Get a workflow run
+        Get a bulk workflow run
         :param skip_deserialization: If true then api_response.response will be set but
             api_response.body and api_response.headers will not be deserialized into schema
             class instances
@@ -265,7 +256,7 @@ class BaseApi(api_client.Api):
     
         _path_params = {}
         for parameter in (
-            request_path_workflow_run_id,
+            request_path_bulk_run_id,
         ):
             parameter_data = path_params.get(parameter.name, schemas.unset)
             if parameter_data is schemas.unset:
@@ -286,7 +277,7 @@ class BaseApi(api_client.Api):
             resource_path=used_path,
             method=method,
             configuration=self.api_client.configuration,
-            path_template='/v1/runs/{workflow_run_id}',
+            path_template='/v1/runs/bulk/{bulk_run_id}',
             auth_settings=_auth,
             headers=_headers,
         )
@@ -323,68 +314,68 @@ class BaseApi(api_client.Api):
         return api_response
 
 
-class GetWorkflowRunRaw(BaseApi):
+class GetBulkRaw(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
-    async def aget_workflow_run(
+    async def aget_bulk(
         self,
-        workflow_run_id: str,
+        bulk_run_id: str,
         **kwargs,
     ) -> typing.Union[
         ApiResponseFor200Async,
         api_client.ApiResponseWithoutDeserializationAsync,
         AsyncGeneratorResponse,
     ]:
-        args = self._get_workflow_run_mapped_args(
-            workflow_run_id=workflow_run_id,
+        args = self._get_bulk_mapped_args(
+            bulk_run_id=bulk_run_id,
         )
-        return await self._aget_workflow_run_oapg(
+        return await self._aget_bulk_oapg(
             path_params=args.path,
             **kwargs,
         )
     
-    def get_workflow_run(
+    def get_bulk(
         self,
-        workflow_run_id: str,
+        bulk_run_id: str,
     ) -> typing.Union[
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization,
     ]:
-        args = self._get_workflow_run_mapped_args(
-            workflow_run_id=workflow_run_id,
+        args = self._get_bulk_mapped_args(
+            bulk_run_id=bulk_run_id,
         )
-        return self._get_workflow_run_oapg(
+        return self._get_bulk_oapg(
             path_params=args.path,
         )
 
-class GetWorkflowRun(BaseApi):
+class GetBulk(BaseApi):
 
-    async def aget_workflow_run(
+    async def aget_bulk(
         self,
-        workflow_run_id: str,
+        bulk_run_id: str,
         validate: bool = False,
         **kwargs,
-    ) -> WorkflowRunSchemaPydantic:
-        raw_response = await self.raw.aget_workflow_run(
-            workflow_run_id=workflow_run_id,
+    ) -> BulkRunSchemaPydantic:
+        raw_response = await self.raw.aget_bulk(
+            bulk_run_id=bulk_run_id,
             **kwargs,
         )
         if validate:
-            return WorkflowRunSchemaPydantic(**raw_response.body)
-        return api_client.construct_model_instance(WorkflowRunSchemaPydantic, raw_response.body)
+            return BulkRunSchemaPydantic(**raw_response.body)
+        return api_client.construct_model_instance(BulkRunSchemaPydantic, raw_response.body)
     
     
-    def get_workflow_run(
+    def get_bulk(
         self,
-        workflow_run_id: str,
+        bulk_run_id: str,
         validate: bool = False,
-    ) -> WorkflowRunSchemaPydantic:
-        raw_response = self.raw.get_workflow_run(
-            workflow_run_id=workflow_run_id,
+    ) -> BulkRunSchemaPydantic:
+        raw_response = self.raw.get_bulk(
+            bulk_run_id=bulk_run_id,
         )
         if validate:
-            return WorkflowRunSchemaPydantic(**raw_response.body)
-        return api_client.construct_model_instance(WorkflowRunSchemaPydantic, raw_response.body)
+            return BulkRunSchemaPydantic(**raw_response.body)
+        return api_client.construct_model_instance(BulkRunSchemaPydantic, raw_response.body)
 
 
 class ApiForget(BaseApi):
@@ -392,32 +383,32 @@ class ApiForget(BaseApi):
 
     async def aget(
         self,
-        workflow_run_id: str,
+        bulk_run_id: str,
         **kwargs,
     ) -> typing.Union[
         ApiResponseFor200Async,
         api_client.ApiResponseWithoutDeserializationAsync,
         AsyncGeneratorResponse,
     ]:
-        args = self._get_workflow_run_mapped_args(
-            workflow_run_id=workflow_run_id,
+        args = self._get_bulk_mapped_args(
+            bulk_run_id=bulk_run_id,
         )
-        return await self._aget_workflow_run_oapg(
+        return await self._aget_bulk_oapg(
             path_params=args.path,
             **kwargs,
         )
     
     def get(
         self,
-        workflow_run_id: str,
+        bulk_run_id: str,
     ) -> typing.Union[
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization,
     ]:
-        args = self._get_workflow_run_mapped_args(
-            workflow_run_id=workflow_run_id,
+        args = self._get_bulk_mapped_args(
+            bulk_run_id=bulk_run_id,
         )
-        return self._get_workflow_run_oapg(
+        return self._get_bulk_oapg(
             path_params=args.path,
         )
 

@@ -8,3 +8,5 @@ import enum
 class PathValues(str, enum.Enum):
     V1_RUNS = "/v1/runs"
     V1_RUNS_WORKFLOW_RUN_ID = "/v1/runs/{workflow_run_id}"
+    V1_RUNS_BULK = "/v1/runs/bulk"
+    V1_RUNS_BULK_BULK_RUN_ID = "/v1/runs/bulk/{bulk_run_id}"

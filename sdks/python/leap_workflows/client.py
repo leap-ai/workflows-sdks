@@ -16,6 +16,7 @@ from leap_workflows.client_custom import ClientCustom
 from leap_workflows.configuration import Configuration
 from leap_workflows.api_client import ApiClient
 from leap_workflows.type_util import copy_signature
+from leap_workflows.apis.tags.bulk_workflow_runs_api import BulkWorkflowRunsApi
 from leap_workflows.apis.tags.workflow_runs_api import WorkflowRunsApi
 
 
@@ -29,4 +30,5 @@ class Leap(ClientCustom):
         if (configuration is None):
             raise Exception("configuration is required")
         api_client = ApiClient(configuration)
+        self.bulk_workflow_runs: BulkWorkflowRunsApi = BulkWorkflowRunsApi(api_client)
         self.workflow_runs: WorkflowRunsApi = WorkflowRunsApi(api_client)

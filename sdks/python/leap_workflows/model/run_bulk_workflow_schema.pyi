@@ -24,7 +24,7 @@ import frozendict  # noqa: F401
 from leap_workflows import schemas  # noqa: F401
 
 
-class RunWorkflowDto(
+class RunBulkWorkflowSchema(
     schemas.DictSchema
 ):
     """
@@ -35,36 +35,35 @@ class RunWorkflowDto(
     class MetaOapg:
         required = {
             "workflow_id",
+            "input_csv_url",
         }
         
         class properties:
             workflow_id = schemas.StrSchema
+            input_csv_url = schemas.StrSchema
             webhook_url = schemas.StrSchema
-        
-            @staticmethod
-            def input() -> typing.Type['RunWorkflowDtoInput']:
-                return RunWorkflowDtoInput
             __annotations__ = {
                 "workflow_id": workflow_id,
+                "input_csv_url": input_csv_url,
                 "webhook_url": webhook_url,
-                "input": input,
             }
     
     workflow_id: MetaOapg.properties.workflow_id
+    input_csv_url: MetaOapg.properties.input_csv_url
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["workflow_id"]) -> MetaOapg.properties.workflow_id: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["webhook_url"]) -> MetaOapg.properties.webhook_url: ...
+    def __getitem__(self, name: typing_extensions.Literal["input_csv_url"]) -> MetaOapg.properties.input_csv_url: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["input"]) -> 'RunWorkflowDtoInput': ...
+    def __getitem__(self, name: typing_extensions.Literal["webhook_url"]) -> MetaOapg.properties.webhook_url: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["workflow_id", "webhook_url", "input", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["workflow_id", "input_csv_url", "webhook_url", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -73,15 +72,15 @@ class RunWorkflowDto(
     def get_item_oapg(self, name: typing_extensions.Literal["workflow_id"]) -> MetaOapg.properties.workflow_id: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["webhook_url"]) -> typing.Union[MetaOapg.properties.webhook_url, schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["input_csv_url"]) -> MetaOapg.properties.input_csv_url: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["input"]) -> typing.Union['RunWorkflowDtoInput', schemas.Unset]: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["webhook_url"]) -> typing.Union[MetaOapg.properties.webhook_url, schemas.Unset]: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["workflow_id", "webhook_url", "input", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["workflow_id", "input_csv_url", "webhook_url", ], str]):
         return super().get_item_oapg(name)
     
 
@@ -89,19 +88,17 @@ class RunWorkflowDto(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
         workflow_id: typing.Union[MetaOapg.properties.workflow_id, str, ],
+        input_csv_url: typing.Union[MetaOapg.properties.input_csv_url, str, ],
         webhook_url: typing.Union[MetaOapg.properties.webhook_url, str, schemas.Unset] = schemas.unset,
-        input: typing.Union['RunWorkflowDtoInput', schemas.Unset] = schemas.unset,
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
-    ) -> 'RunWorkflowDto':
+    ) -> 'RunBulkWorkflowSchema':
         return super().__new__(
             cls,
             *args,
             workflow_id=workflow_id,
+            input_csv_url=input_csv_url,
             webhook_url=webhook_url,
-            input=input,
             _configuration=_configuration,
             **kwargs,
         )
-
-from leap_workflows.model.run_workflow_dto_input import RunWorkflowDtoInput
