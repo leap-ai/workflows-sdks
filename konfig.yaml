@@ -28,7 +28,7 @@ portal:
     website: https://tryleap.ai/
 generators:
   python:
-    version: 2.0.1
+    version: 2.0.2
     packageName: leap_workflows
     projectName: leap-workflows-python-sdk
     outputDirectory: sdks/python
@@ -38,7 +38,7 @@ generators:
       userId: leap-ai
       repoId: workflows-sdks/tree/main/sdks/python
   typescript:
-    version: 1.1.0
+    version: 1.1.1
     npmName: '@leap-ai/workflows'
     outputDirectory: sdks/typescript
     clientName: Leap
