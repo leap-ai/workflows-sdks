@@ -14,71 +14,71 @@ import type * as buffer from "buffer"
 /**
  * 
  * @export
- * @interface WorkflowRunEntity
+ * @interface WorkflowRunSchema
  */
-export interface WorkflowRunEntity {
+export interface WorkflowRunSchema {
     /**
      * 
      * @type {string}
-     * @memberof WorkflowRunEntity
+     * @memberof WorkflowRunSchema
      */
     'id': string;
     /**
      * 
      * @type {string}
-     * @memberof WorkflowRunEntity
+     * @memberof WorkflowRunSchema
      */
     'version_id': string;
     /**
      * 
      * @type {string}
-     * @memberof WorkflowRunEntity
+     * @memberof WorkflowRunSchema
      */
-    'status': WorkflowRunEntityStatusEnum;
+    'status': WorkflowRunSchemaStatusEnum;
     /**
      * 
      * @type {string}
-     * @memberof WorkflowRunEntity
+     * @memberof WorkflowRunSchema
      */
     'created_at': string;
     /**
      * 
      * @type {string}
-     * @memberof WorkflowRunEntity
+     * @memberof WorkflowRunSchema
      */
-    'started_at': string;
+    'started_at': string | null;
     /**
      * 
      * @type {string}
-     * @memberof WorkflowRunEntity
+     * @memberof WorkflowRunSchema
      */
-    'ended_at': string;
+    'ended_at': string | null;
     /**
      * 
      * @type {string}
-     * @memberof WorkflowRunEntity
+     * @memberof WorkflowRunSchema
      */
     'workflow_id': string;
     /**
      * 
      * @type {string}
-     * @memberof WorkflowRunEntity
+     * @memberof WorkflowRunSchema
      */
-    'error': string;
+    'error': string | null;
     /**
      * 
      * @type {object}
-     * @memberof WorkflowRunEntity
+     * @memberof WorkflowRunSchema
      */
-    'input': object;
+    'input': object | null;
     /**
      * 
      * @type {object}
-     * @memberof WorkflowRunEntity
+     * @memberof WorkflowRunSchema
      */
-    'output': object;
+    'output': object | null;
 }
 
-type WorkflowRunEntityStatusEnum = 'completed' | 'running' | 'failed'
+type WorkflowRunSchemaStatusEnum = 'completed' | 'running' | 'failed'
 
 

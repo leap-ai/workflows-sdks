@@ -24,7 +24,7 @@ import frozendict  # noqa: F401
 from leap_workflows import schemas  # noqa: F401
 
 
-class WorkflowRunEntity(
+class WorkflowRunSchema(
     schemas.DictSchema
 ):
     """
@@ -47,8 +47,8 @@ class WorkflowRunEntity(
         }
         
         class properties:
-            id = schemas.UUIDSchema
-            version_id = schemas.UUIDSchema
+            id = schemas.StrSchema
+            version_id = schemas.StrSchema
             
             
             class status(
@@ -75,13 +75,112 @@ class WorkflowRunEntity(
                 @schemas.classproperty
                 def FAILED(cls):
                     return cls("failed")
-            created_at = schemas.DateTimeSchema
-            started_at = schemas.DateTimeSchema
-            ended_at = schemas.DateTimeSchema
-            workflow_id = schemas.UUIDSchema
-            error = schemas.StrSchema
-            input = schemas.DictSchema
-            output = schemas.DictSchema
+            created_at = schemas.StrSchema
+            
+            
+            class started_at(
+                schemas.StrBase,
+                schemas.NoneBase,
+                schemas.Schema,
+                schemas.NoneStrMixin
+            ):
+            
+            
+                def __new__(
+                    cls,
+                    *args: typing.Union[None, str, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'started_at':
+                    return super().__new__(
+                        cls,
+                        *args,
+                        _configuration=_configuration,
+                    )
+            
+            
+            class ended_at(
+                schemas.StrBase,
+                schemas.NoneBase,
+                schemas.Schema,
+                schemas.NoneStrMixin
+            ):
+            
+            
+                def __new__(
+                    cls,
+                    *args: typing.Union[None, str, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'ended_at':
+                    return super().__new__(
+                        cls,
+                        *args,
+                        _configuration=_configuration,
+                    )
+            workflow_id = schemas.StrSchema
+            
+            
+            class error(
+                schemas.StrBase,
+                schemas.NoneBase,
+                schemas.Schema,
+                schemas.NoneStrMixin
+            ):
+            
+            
+                def __new__(
+                    cls,
+                    *args: typing.Union[None, str, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'error':
+                    return super().__new__(
+                        cls,
+                        *args,
+                        _configuration=_configuration,
+                    )
+            
+            
+            class input(
+                schemas.DictBase,
+                schemas.NoneBase,
+                schemas.Schema,
+                schemas.NoneFrozenDictMixin
+            ):
+            
+            
+                def __new__(
+                    cls,
+                    *args: typing.Union[dict, frozendict.frozendict, None, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                    **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
+                ) -> 'input':
+                    return super().__new__(
+                        cls,
+                        *args,
+                        _configuration=_configuration,
+                        **kwargs,
+                    )
+            
+            
+            class output(
+                schemas.DictBase,
+                schemas.NoneBase,
+                schemas.Schema,
+                schemas.NoneFrozenDictMixin
+            ):
+            
+            
+                def __new__(
+                    cls,
+                    *args: typing.Union[dict, frozendict.frozendict, None, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                    **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
+                ) -> 'output':
+                    return super().__new__(
+                        cls,
+                        *args,
+                        _configuration=_configuration,
+                        **kwargs,
+                    )
             __annotations__ = {
                 "id": id,
                 "version_id": version_id,
@@ -184,19 +283,19 @@ class WorkflowRunEntity(
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
-        output: typing.Union[MetaOapg.properties.output, dict, frozendict.frozendict, ],
-        input: typing.Union[MetaOapg.properties.input, dict, frozendict.frozendict, ],
-        workflow_id: typing.Union[MetaOapg.properties.workflow_id, str, uuid.UUID, ],
-        created_at: typing.Union[MetaOapg.properties.created_at, str, datetime, ],
-        started_at: typing.Union[MetaOapg.properties.started_at, str, datetime, ],
-        id: typing.Union[MetaOapg.properties.id, str, uuid.UUID, ],
-        version_id: typing.Union[MetaOapg.properties.version_id, str, uuid.UUID, ],
-        error: typing.Union[MetaOapg.properties.error, str, ],
-        ended_at: typing.Union[MetaOapg.properties.ended_at, str, datetime, ],
+        output: typing.Union[MetaOapg.properties.output, dict, frozendict.frozendict, None, ],
+        input: typing.Union[MetaOapg.properties.input, dict, frozendict.frozendict, None, ],
+        workflow_id: typing.Union[MetaOapg.properties.workflow_id, str, ],
+        created_at: typing.Union[MetaOapg.properties.created_at, str, ],
+        started_at: typing.Union[MetaOapg.properties.started_at, None, str, ],
+        id: typing.Union[MetaOapg.properties.id, str, ],
+        version_id: typing.Union[MetaOapg.properties.version_id, str, ],
+        error: typing.Union[MetaOapg.properties.error, None, str, ],
+        ended_at: typing.Union[MetaOapg.properties.ended_at, None, str, ],
         status: typing.Union[MetaOapg.properties.status, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
-    ) -> 'WorkflowRunEntity':
+    ) -> 'WorkflowRunSchema':
         return super().__new__(
             cls,
             *args,

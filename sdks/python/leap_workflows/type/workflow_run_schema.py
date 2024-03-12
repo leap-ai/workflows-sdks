@@ -16,29 +16,29 @@ from enum import Enum
 from typing_extensions import TypedDict, Literal, TYPE_CHECKING
 
 
-class RequiredWorkflowRunEntity(TypedDict):
+class RequiredWorkflowRunSchema(TypedDict):
     id: str
 
     version_id: str
 
     status: str
 
-    created_at: datetime
+    created_at: str
 
-    started_at: datetime
+    started_at: typing.Optional[str]
 
-    ended_at: datetime
+    ended_at: typing.Optional[str]
 
     workflow_id: str
 
-    error: str
+    error: typing.Optional[str]
 
-    input: typing.Dict[str, typing.Union[bool, date, datetime, dict, float, int, list, str, None]]
+    input: typing.Optional[typing.Dict[str, typing.Union[bool, date, datetime, dict, float, int, list, str, None]]]
 
-    output: typing.Dict[str, typing.Union[bool, date, datetime, dict, float, int, list, str, None]]
+    output: typing.Optional[typing.Dict[str, typing.Union[bool, date, datetime, dict, float, int, list, str, None]]]
 
-class OptionalWorkflowRunEntity(TypedDict, total=False):
+class OptionalWorkflowRunSchema(TypedDict, total=False):
     pass
 
-class WorkflowRunEntity(RequiredWorkflowRunEntity, OptionalWorkflowRunEntity):
+class WorkflowRunSchema(RequiredWorkflowRunSchema, OptionalWorkflowRunSchema):
     pass

@@ -18,6 +18,8 @@ The Leap Workflows API allows developers to run workflows, fetch workflow runs, 
 - [Installation](#installation)
 - [Getting Started](#getting-started)
 - [Reference](#reference)
+  * [`leap.bulkWorkflowRuns.getBulk`](#leapbulkworkflowrunsgetbulk)
+  * [`leap.bulkWorkflowRuns.runBulk`](#leapbulkworkflowrunsrunbulk)
   * [`leap.workflowRuns.getWorkflowRun`](#leapworkflowrunsgetworkflowrun)
   * [`leap.workflowRuns.workflow`](#leapworkflowrunsworkflow)
 
@@ -67,14 +69,86 @@ const leap = new Leap({
   apiKey: "API_KEY",
 });
 
-const getWorkflowRunResponse = await leap.workflowRuns.getWorkflowRun({
-  workflowRunId: "workflowRunId_example",
+const getBulkResponse = await leap.bulkWorkflowRuns.getBulk({
+  bulkRunId: "bulkRunId_example",
 });
 
-console.log(getWorkflowRunResponse);
+console.log(getBulkResponse);
 ```
 
 ## Reference<a id="reference"></a>
+
+
+### `leap.bulkWorkflowRuns.getBulk`<a id="leapbulkworkflowrunsgetbulk"></a>
+
+This endpoint retrieves the details of a specific bulk workflow run using its `bulk_run_id`.
+
+#### 🛠️ Usage<a id="🛠️-usage"></a>
+
+```typescript
+const getBulkResponse = await leap.bulkWorkflowRuns.getBulk({
+  bulkRunId: "bulkRunId_example",
+});
+```
+
+#### ⚙️ Parameters<a id="⚙️-parameters"></a>
+
+##### bulkRunId: `string`<a id="bulkrunid-string"></a>
+
+The ID of the bulk run to retrieve.
+
+#### 🔄 Return<a id="🔄-return"></a>
+
+[BulkRunSchema](./models/bulk-run-schema.ts)
+
+#### 🌐 Endpoint<a id="🌐-endpoint"></a>
+
+`/v1/runs/bulk/{bulk_run_id}` `GET`
+
+[🔙 **Back to Table of Contents**](#table-of-contents)
+
+---
+
+
+### `leap.bulkWorkflowRuns.runBulk`<a id="leapbulkworkflowrunsrunbulk"></a>
+
+This endpoint lets the user run a specified workflow with the provided csv in bulk.
+
+#### 🛠️ Usage<a id="🛠️-usage"></a>
+
+```typescript
+const runBulkResponse = await leap.bulkWorkflowRuns.runBulk({
+  workflow_id: "wkf_i3F5UjpZ2Vg",
+  input_csv_url: "https://myapp.com/input.csv",
+  webhook_url: "https://myapp.com/webhook",
+});
+```
+
+#### ⚙️ Parameters<a id="⚙️-parameters"></a>
+
+##### workflow_id: `string`<a id="workflow_id-string"></a>
+
+The ID of the workflow to be run in bulk.
+
+##### input_csv_url: `string`<a id="input_csv_url-string"></a>
+
+A CSV file containing the input data for the bulk run. Each row should contain the input data for a single run.
+
+##### webhook_url: `string`<a id="webhook_url-string"></a>
+
+The URL to which the bulk run results should be sent to on completion.
+
+#### 🔄 Return<a id="🔄-return"></a>
+
+[BulkRunSchema](./models/bulk-run-schema.ts)
+
+#### 🌐 Endpoint<a id="🌐-endpoint"></a>
+
+`/v1/runs/bulk` `POST`
+
+[🔙 **Back to Table of Contents**](#table-of-contents)
+
+---
 
 
 ### `leap.workflowRuns.getWorkflowRun`<a id="leapworkflowrunsgetworkflowrun"></a>
@@ -97,7 +171,7 @@ The ID of the workflow run to retrieve.
 
 #### 🔄 Return<a id="🔄-return"></a>
 
-[WorkflowRunEntity](./models/workflow-run-entity.ts)
+[WorkflowRunSchema](./models/workflow-run-schema.ts)
 
 #### 🌐 Endpoint<a id="🌐-endpoint"></a>
 
@@ -137,7 +211,7 @@ Variables that the workflow can use globally and their values.
 
 #### 🔄 Return<a id="🔄-return"></a>
 
-[WorkflowRunEntity](./models/workflow-run-entity.ts)
+[WorkflowRunSchema](./models/workflow-run-schema.ts)
 
 #### 🌐 Endpoint<a id="🌐-endpoint"></a>
 

@@ -17,25 +17,25 @@ from typing_extensions import TypedDict, Literal, TYPE_CHECKING
 from pydantic import BaseModel, Field, RootModel
 
 
-class WorkflowRunEntity(BaseModel):
+class WorkflowRunSchema(BaseModel):
     id: str = Field(alias='id')
 
     version_id: str = Field(alias='version_id')
 
     status: Literal["completed", "running", "failed"] = Field(alias='status')
 
-    created_at: datetime = Field(alias='created_at')
+    created_at: str = Field(alias='created_at')
 
-    started_at: datetime = Field(alias='started_at')
+    started_at: typing.Optional[str] = Field(alias='started_at')
 
-    ended_at: datetime = Field(alias='ended_at')
+    ended_at: typing.Optional[str] = Field(alias='ended_at')
 
     workflow_id: str = Field(alias='workflow_id')
 
-    error: str = Field(alias='error')
+    error: typing.Optional[str] = Field(alias='error')
 
-    input: typing.Dict[str, typing.Union[bool, date, datetime, dict, float, int, list, str, None]] = Field(alias='input')
+    input: typing.Optional[typing.Dict[str, typing.Union[bool, date, datetime, dict, float, int, list, str, None]]] = Field(alias='input')
 
-    output: typing.Dict[str, typing.Union[bool, date, datetime, dict, float, int, list, str, None]] = Field(alias='output')
+    output: typing.Optional[typing.Dict[str, typing.Union[bool, date, datetime, dict, float, int, list, str, None]]] = Field(alias='output')
     class Config:
         arbitrary_types_allowed = True

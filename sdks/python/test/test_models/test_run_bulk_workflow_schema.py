@@ -10,11 +10,17 @@
     Created by: https://tryleap.ai/
 """
 
-from datetime import datetime, date
-import typing
-from enum import Enum
-from typing_extensions import TypedDict, Literal, TYPE_CHECKING
-from pydantic import BaseModel, Field, RootModel
+import unittest
+
+import leap_workflows
+from leap_workflows.model.run_bulk_workflow_schema import RunBulkWorkflowSchema
+from leap_workflows import configuration
 
 
-RunWorkflowDtoInput = dict
+class TestRunBulkWorkflowSchema(unittest.TestCase):
+    """RunBulkWorkflowSchema unit test stubs"""
+    pass
+
+
+if __name__ == '__main__':
+    unittest.main()

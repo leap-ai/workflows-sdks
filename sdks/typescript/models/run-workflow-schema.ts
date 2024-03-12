@@ -14,25 +14,25 @@ import type * as buffer from "buffer"
 /**
  * 
  * @export
- * @interface RunWorkflowDto
+ * @interface RunWorkflowSchema
  */
-export interface RunWorkflowDto {
+export interface RunWorkflowSchema {
     /**
      * The ID of the workflow to be run.
      * @type {string}
-     * @memberof RunWorkflowDto
+     * @memberof RunWorkflowSchema
      */
     'workflow_id': string;
     /**
      * The URL to which the workflow results should be sent to on completion.
      * @type {string}
-     * @memberof RunWorkflowDto
+     * @memberof RunWorkflowSchema
      */
     'webhook_url'?: string;
     /**
      * Variables that the workflow can use globally and their values.
      * @type {{ [key: string]: any; }}
-     * @memberof RunWorkflowDto
+     * @memberof RunWorkflowSchema
      */
     'input'?: { [key: string]: any; };
 }

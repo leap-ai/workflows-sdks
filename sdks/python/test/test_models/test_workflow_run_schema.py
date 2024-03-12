@@ -13,12 +13,12 @@
 import unittest
 
 import leap_workflows
-from leap_workflows.model.workflow_run_entity import WorkflowRunEntity
+from leap_workflows.model.workflow_run_schema import WorkflowRunSchema
 from leap_workflows import configuration
 
 
-class TestWorkflowRunEntity(unittest.TestCase):
-    """WorkflowRunEntity unit test stubs"""
+class TestWorkflowRunSchema(unittest.TestCase):
+    """WorkflowRunSchema unit test stubs"""
     pass
 
 

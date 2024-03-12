@@ -19,9 +19,9 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 // @ts-ignore
-import { RunWorkflowDto } from '../models';
+import { RunWorkflowSchema } from '../models';
 // @ts-ignore
-import { WorkflowRunEntity } from '../models';
+import { WorkflowRunSchema } from '../models';
 import { paginate } from "../pagination/paginate";
 import type * as buffer from "buffer"
 import { requestBeforeHook } from '../requestBeforeHook';
@@ -64,7 +64,9 @@ export const WorkflowRunsApiAxiosParamCreator = function (configuration?: Config
                 queryParameters: localVarQueryParameter,
                 requestConfig: localVarRequestOptions,
                 path: localVarPath,
-                configuration
+                configuration,
+                pathTemplate: '/v1/runs/{workflow_run_id}',
+                httpMethod: 'GET'
             });
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -76,13 +78,13 @@ export const WorkflowRunsApiAxiosParamCreator = function (configuration?: Config
         /**
          * This endpoint lets the user run a specified workflow with the provided workflow definition.
          * @summary Run a workflow
-         * @param {RunWorkflowDto} runWorkflowDto 
+         * @param {RunWorkflowSchema} runWorkflowSchema 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        workflow: async (runWorkflowDto: RunWorkflowDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'runWorkflowDto' is not null or undefined
-            assertParamExists('workflow', 'runWorkflowDto', runWorkflowDto)
+        workflow: async (runWorkflowSchema: RunWorkflowSchema, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'runWorkflowSchema' is not null or undefined
+            assertParamExists('workflow', 'runWorkflowSchema', runWorkflowSchema)
             const localVarPath = `/v1/runs`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -105,13 +107,15 @@ export const WorkflowRunsApiAxiosParamCreator = function (configuration?: Config
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             requestBeforeHook({
-                requestBody: runWorkflowDto,
+                requestBody: runWorkflowSchema,
                 queryParameters: localVarQueryParameter,
                 requestConfig: localVarRequestOptions,
                 path: localVarPath,
-                configuration
+                configuration,
+                pathTemplate: '/v1/runs',
+                httpMethod: 'POST'
             });
-            localVarRequestOptions.data = serializeDataIfNeeded(runWorkflowDto, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(runWorkflowSchema, localVarRequestOptions, configuration)
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             return {
@@ -136,7 +140,7 @@ export const WorkflowRunsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getWorkflowRun(requestParameters: WorkflowRunsApiGetWorkflowRunRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WorkflowRunEntity>> {
+        async getWorkflowRun(requestParameters: WorkflowRunsApiGetWorkflowRunRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WorkflowRunSchema>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getWorkflowRun(requestParameters.workflowRunId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -147,8 +151,13 @@ export const WorkflowRunsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async workflow(requestParameters: WorkflowRunsApiWorkflowRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WorkflowRunEntity>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.workflow(requestParameters, options);
+        async workflow(requestParameters: WorkflowRunsApiWorkflowRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WorkflowRunSchema>> {
+            const runWorkflowSchema: RunWorkflowSchema = {
+                workflow_id: requestParameters.workflow_id,
+                webhook_url: requestParameters.webhook_url,
+                input: requestParameters.input
+            };
+            const localVarAxiosArgs = await localVarAxiosParamCreator.workflow(runWorkflowSchema, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -168,7 +177,7 @@ export const WorkflowRunsApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getWorkflowRun(requestParameters: WorkflowRunsApiGetWorkflowRunRequest, options?: AxiosRequestConfig): AxiosPromise<WorkflowRunEntity> {
+        getWorkflowRun(requestParameters: WorkflowRunsApiGetWorkflowRunRequest, options?: AxiosRequestConfig): AxiosPromise<WorkflowRunSchema> {
             return localVarFp.getWorkflowRun(requestParameters, options).then((request) => request(axios, basePath));
         },
         /**
@@ -178,7 +187,7 @@ export const WorkflowRunsApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        workflow(requestParameters: WorkflowRunsApiWorkflowRequest, options?: AxiosRequestConfig): AxiosPromise<WorkflowRunEntity> {
+        workflow(requestParameters: WorkflowRunsApiWorkflowRequest, options?: AxiosRequestConfig): AxiosPromise<WorkflowRunSchema> {
             return localVarFp.workflow(requestParameters, options).then((request) => request(axios, basePath));
         },
     };
@@ -207,7 +216,7 @@ export type WorkflowRunsApiGetWorkflowRunRequest = {
  */
 export type WorkflowRunsApiWorkflowRequest = {
     
-} & RunWorkflowDto
+} & RunWorkflowSchema
 
 /**
  * WorkflowRunsApiGenerated - object-oriented interface

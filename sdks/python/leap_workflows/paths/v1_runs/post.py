@@ -33,26 +33,26 @@ import frozendict  # noqa: F401
 
 from leap_workflows import schemas  # noqa: F401
 
-from leap_workflows.model.run_workflow_dto_input import RunWorkflowDtoInput as RunWorkflowDtoInputSchema
-from leap_workflows.model.run_workflow_dto import RunWorkflowDto as RunWorkflowDtoSchema
-from leap_workflows.model.workflow_run_entity import WorkflowRunEntity as WorkflowRunEntitySchema
+from leap_workflows.model.workflow_run_schema import WorkflowRunSchema as WorkflowRunSchemaSchema
+from leap_workflows.model.run_workflow_schema import RunWorkflowSchema as RunWorkflowSchemaSchema
+from leap_workflows.model.run_workflow_schema_input import RunWorkflowSchemaInput as RunWorkflowSchemaInputSchema
 
-from leap_workflows.type.run_workflow_dto_input import RunWorkflowDtoInput
-from leap_workflows.type.workflow_run_entity import WorkflowRunEntity
-from leap_workflows.type.run_workflow_dto import RunWorkflowDto
+from leap_workflows.type.run_workflow_schema_input import RunWorkflowSchemaInput
+from leap_workflows.type.run_workflow_schema import RunWorkflowSchema
+from leap_workflows.type.workflow_run_schema import WorkflowRunSchema
 
 from ...api_client import Dictionary
-from leap_workflows.pydantic.run_workflow_dto_input import RunWorkflowDtoInput as RunWorkflowDtoInputPydantic
-from leap_workflows.pydantic.workflow_run_entity import WorkflowRunEntity as WorkflowRunEntityPydantic
-from leap_workflows.pydantic.run_workflow_dto import RunWorkflowDto as RunWorkflowDtoPydantic
+from leap_workflows.pydantic.run_workflow_schema import RunWorkflowSchema as RunWorkflowSchemaPydantic
+from leap_workflows.pydantic.run_workflow_schema_input import RunWorkflowSchemaInput as RunWorkflowSchemaInputPydantic
+from leap_workflows.pydantic.workflow_run_schema import WorkflowRunSchema as WorkflowRunSchemaPydantic
 
 from . import path
 
 # body param
-SchemaForRequestBodyApplicationJson = RunWorkflowDtoSchema
+SchemaForRequestBodyApplicationJson = RunWorkflowSchemaSchema
 
 
-request_body_run_workflow_dto = api_client.RequestBody(
+request_body_run_workflow_schema = api_client.RequestBody(
     content={
         'application/json': api_client.MediaType(
             schema=SchemaForRequestBodyApplicationJson),
@@ -62,17 +62,17 @@ request_body_run_workflow_dto = api_client.RequestBody(
 _auth = [
     'api_key',
 ]
-SchemaFor200ResponseBodyApplicationJson = WorkflowRunEntitySchema
+SchemaFor200ResponseBodyApplicationJson = WorkflowRunSchemaSchema
 
 
 @dataclass
 class ApiResponseFor200(api_client.ApiResponse):
-    body: WorkflowRunEntity
+    body: WorkflowRunSchema
 
 
 @dataclass
 class ApiResponseFor200Async(api_client.AsyncApiResponse):
-    body: WorkflowRunEntity
+    body: WorkflowRunSchema
 
 
 _response_for_200 = api_client.OpenApiResponse(
@@ -114,7 +114,7 @@ class BaseApi(api_client.Api):
         self,
         workflow_id: str,
         webhook_url: typing.Optional[str] = None,
-        input: typing.Optional[RunWorkflowDtoInput] = None,
+        input: typing.Optional[RunWorkflowSchemaInput] = None,
     ) -> api_client.MappedArgs:
         args: api_client.MappedArgs = api_client.MappedArgs()
         _body = {}
@@ -171,7 +171,7 @@ class BaseApi(api_client.Api):
             auth_settings=_auth,
             headers=_headers,
         )
-        serialized_data = request_body_run_workflow_dto.serialize(body, content_type)
+        serialized_data = request_body_run_workflow_schema.serialize(body, content_type)
         if 'fields' in serialized_data:
             _fields = serialized_data['fields']
         elif 'body' in serialized_data:
@@ -285,7 +285,7 @@ class BaseApi(api_client.Api):
             auth_settings=_auth,
             headers=_headers,
         )
-        serialized_data = request_body_run_workflow_dto.serialize(body, content_type)
+        serialized_data = request_body_run_workflow_schema.serialize(body, content_type)
         if 'fields' in serialized_data:
             _fields = serialized_data['fields']
         elif 'body' in serialized_data:
@@ -333,7 +333,7 @@ class WorkflowRaw(BaseApi):
         self,
         workflow_id: str,
         webhook_url: typing.Optional[str] = None,
-        input: typing.Optional[RunWorkflowDtoInput] = None,
+        input: typing.Optional[RunWorkflowSchemaInput] = None,
         **kwargs,
     ) -> typing.Union[
         ApiResponseFor200Async,
@@ -354,7 +354,7 @@ class WorkflowRaw(BaseApi):
         self,
         workflow_id: str,
         webhook_url: typing.Optional[str] = None,
-        input: typing.Optional[RunWorkflowDtoInput] = None,
+        input: typing.Optional[RunWorkflowSchemaInput] = None,
     ) -> typing.Union[
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization,
@@ -374,10 +374,10 @@ class Workflow(BaseApi):
         self,
         workflow_id: str,
         webhook_url: typing.Optional[str] = None,
-        input: typing.Optional[RunWorkflowDtoInput] = None,
+        input: typing.Optional[RunWorkflowSchemaInput] = None,
         validate: bool = False,
         **kwargs,
-    ) -> WorkflowRunEntityPydantic:
+    ) -> WorkflowRunSchemaPydantic:
         raw_response = await self.raw.aworkflow(
             workflow_id=workflow_id,
             webhook_url=webhook_url,
@@ -385,25 +385,25 @@ class Workflow(BaseApi):
             **kwargs,
         )
         if validate:
-            return WorkflowRunEntityPydantic(**raw_response.body)
-        return api_client.construct_model_instance(WorkflowRunEntityPydantic, raw_response.body)
+            return WorkflowRunSchemaPydantic(**raw_response.body)
+        return api_client.construct_model_instance(WorkflowRunSchemaPydantic, raw_response.body)
     
     
     def workflow(
         self,
         workflow_id: str,
         webhook_url: typing.Optional[str] = None,
-        input: typing.Optional[RunWorkflowDtoInput] = None,
+        input: typing.Optional[RunWorkflowSchemaInput] = None,
         validate: bool = False,
-    ) -> WorkflowRunEntityPydantic:
+    ) -> WorkflowRunSchemaPydantic:
         raw_response = self.raw.workflow(
             workflow_id=workflow_id,
             webhook_url=webhook_url,
             input=input,
         )
         if validate:
-            return WorkflowRunEntityPydantic(**raw_response.body)
-        return api_client.construct_model_instance(WorkflowRunEntityPydantic, raw_response.body)
+            return WorkflowRunSchemaPydantic(**raw_response.body)
+        return api_client.construct_model_instance(WorkflowRunSchemaPydantic, raw_response.body)
 
 
 class ApiForpost(BaseApi):
@@ -413,7 +413,7 @@ class ApiForpost(BaseApi):
         self,
         workflow_id: str,
         webhook_url: typing.Optional[str] = None,
-        input: typing.Optional[RunWorkflowDtoInput] = None,
+        input: typing.Optional[RunWorkflowSchemaInput] = None,
         **kwargs,
     ) -> typing.Union[
         ApiResponseFor200Async,
@@ -434,7 +434,7 @@ class ApiForpost(BaseApi):
         self,
         workflow_id: str,
         webhook_url: typing.Optional[str] = None,
-        input: typing.Optional[RunWorkflowDtoInput] = None,
+        input: typing.Optional[RunWorkflowSchemaInput] = None,
     ) -> typing.Union[
         ApiResponseFor200,
         api_client.ApiResponseWithoutDeserialization,

@@ -24,7 +24,7 @@ import frozendict  # noqa: F401
 from leap_workflows import schemas  # noqa: F401
 
 
-class WorkflowRunEntity(
+class BulkRunSchema(
     schemas.DictSchema
 ):
     """
@@ -34,27 +34,34 @@ class WorkflowRunEntity(
 
     class MetaOapg:
         required = {
-            "output",
-            "input",
             "workflow_id",
+            "input_csv_url",
+            "output_csv_url",
             "created_at",
-            "started_at",
             "id",
             "version_id",
             "error",
-            "ended_at",
+            "row_count",
             "status",
         }
         
         class properties:
-            id = schemas.UUIDSchema
-            version_id = schemas.UUIDSchema
+            id = schemas.StrSchema
+            version_id = schemas.StrSchema
             
             
             class status(
                 schemas.EnumBase,
                 schemas.StrSchema
             ):
+            
+            
+                class MetaOapg:
+                    enum_value_to_name = {
+                        "completed": "COMPLETED",
+                        "running": "RUNNING",
+                        "failed": "FAILED",
+                    }
                 
                 @schemas.classproperty
                 def COMPLETED(cls):
@@ -67,35 +74,70 @@ class WorkflowRunEntity(
                 @schemas.classproperty
                 def FAILED(cls):
                     return cls("failed")
-            created_at = schemas.DateTimeSchema
-            started_at = schemas.DateTimeSchema
-            ended_at = schemas.DateTimeSchema
-            workflow_id = schemas.UUIDSchema
-            error = schemas.StrSchema
-            input = schemas.DictSchema
-            output = schemas.DictSchema
+            created_at = schemas.StrSchema
+            workflow_id = schemas.StrSchema
+            input_csv_url = schemas.StrSchema
+            
+            
+            class output_csv_url(
+                schemas.StrBase,
+                schemas.NoneBase,
+                schemas.Schema,
+                schemas.NoneStrMixin
+            ):
+            
+            
+                def __new__(
+                    cls,
+                    *args: typing.Union[None, str, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'output_csv_url':
+                    return super().__new__(
+                        cls,
+                        *args,
+                        _configuration=_configuration,
+                    )
+            
+            
+            class error(
+                schemas.StrBase,
+                schemas.NoneBase,
+                schemas.Schema,
+                schemas.NoneStrMixin
+            ):
+            
+            
+                def __new__(
+                    cls,
+                    *args: typing.Union[None, str, ],
+                    _configuration: typing.Optional[schemas.Configuration] = None,
+                ) -> 'error':
+                    return super().__new__(
+                        cls,
+                        *args,
+                        _configuration=_configuration,
+                    )
+            row_count = schemas.NumberSchema
             __annotations__ = {
                 "id": id,
                 "version_id": version_id,
                 "status": status,
                 "created_at": created_at,
-                "started_at": started_at,
-                "ended_at": ended_at,
                 "workflow_id": workflow_id,
+                "input_csv_url": input_csv_url,
+                "output_csv_url": output_csv_url,
                 "error": error,
-                "input": input,
-                "output": output,
+                "row_count": row_count,
             }
     
-    output: MetaOapg.properties.output
-    input: MetaOapg.properties.input
     workflow_id: MetaOapg.properties.workflow_id
+    input_csv_url: MetaOapg.properties.input_csv_url
+    output_csv_url: MetaOapg.properties.output_csv_url
     created_at: MetaOapg.properties.created_at
-    started_at: MetaOapg.properties.started_at
     id: MetaOapg.properties.id
     version_id: MetaOapg.properties.version_id
     error: MetaOapg.properties.error
-    ended_at: MetaOapg.properties.ended_at
+    row_count: MetaOapg.properties.row_count
     status: MetaOapg.properties.status
     
     @typing.overload
@@ -111,27 +153,24 @@ class WorkflowRunEntity(
     def __getitem__(self, name: typing_extensions.Literal["created_at"]) -> MetaOapg.properties.created_at: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["started_at"]) -> MetaOapg.properties.started_at: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["ended_at"]) -> MetaOapg.properties.ended_at: ...
-    
-    @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["workflow_id"]) -> MetaOapg.properties.workflow_id: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["input_csv_url"]) -> MetaOapg.properties.input_csv_url: ...
+    
+    @typing.overload
+    def __getitem__(self, name: typing_extensions.Literal["output_csv_url"]) -> MetaOapg.properties.output_csv_url: ...
     
     @typing.overload
     def __getitem__(self, name: typing_extensions.Literal["error"]) -> MetaOapg.properties.error: ...
     
     @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["input"]) -> MetaOapg.properties.input: ...
-    
-    @typing.overload
-    def __getitem__(self, name: typing_extensions.Literal["output"]) -> MetaOapg.properties.output: ...
+    def __getitem__(self, name: typing_extensions.Literal["row_count"]) -> MetaOapg.properties.row_count: ...
     
     @typing.overload
     def __getitem__(self, name: str) -> schemas.UnsetAnyTypeSchema: ...
     
-    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "version_id", "status", "created_at", "started_at", "ended_at", "workflow_id", "error", "input", "output", ], str]):
+    def __getitem__(self, name: typing.Union[typing_extensions.Literal["id", "version_id", "status", "created_at", "workflow_id", "input_csv_url", "output_csv_url", "error", "row_count", ], str]):
         # dict_instance[name] accessor
         return super().__getitem__(name)
     
@@ -149,58 +188,53 @@ class WorkflowRunEntity(
     def get_item_oapg(self, name: typing_extensions.Literal["created_at"]) -> MetaOapg.properties.created_at: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["started_at"]) -> MetaOapg.properties.started_at: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["ended_at"]) -> MetaOapg.properties.ended_at: ...
-    
-    @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["workflow_id"]) -> MetaOapg.properties.workflow_id: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["input_csv_url"]) -> MetaOapg.properties.input_csv_url: ...
+    
+    @typing.overload
+    def get_item_oapg(self, name: typing_extensions.Literal["output_csv_url"]) -> MetaOapg.properties.output_csv_url: ...
     
     @typing.overload
     def get_item_oapg(self, name: typing_extensions.Literal["error"]) -> MetaOapg.properties.error: ...
     
     @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["input"]) -> MetaOapg.properties.input: ...
-    
-    @typing.overload
-    def get_item_oapg(self, name: typing_extensions.Literal["output"]) -> MetaOapg.properties.output: ...
+    def get_item_oapg(self, name: typing_extensions.Literal["row_count"]) -> MetaOapg.properties.row_count: ...
     
     @typing.overload
     def get_item_oapg(self, name: str) -> typing.Union[schemas.UnsetAnyTypeSchema, schemas.Unset]: ...
     
-    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "version_id", "status", "created_at", "started_at", "ended_at", "workflow_id", "error", "input", "output", ], str]):
+    def get_item_oapg(self, name: typing.Union[typing_extensions.Literal["id", "version_id", "status", "created_at", "workflow_id", "input_csv_url", "output_csv_url", "error", "row_count", ], str]):
         return super().get_item_oapg(name)
     
 
     def __new__(
         cls,
         *args: typing.Union[dict, frozendict.frozendict, ],
-        output: typing.Union[MetaOapg.properties.output, dict, frozendict.frozendict, ],
-        input: typing.Union[MetaOapg.properties.input, dict, frozendict.frozendict, ],
-        workflow_id: typing.Union[MetaOapg.properties.workflow_id, str, uuid.UUID, ],
-        created_at: typing.Union[MetaOapg.properties.created_at, str, datetime, ],
-        started_at: typing.Union[MetaOapg.properties.started_at, str, datetime, ],
-        id: typing.Union[MetaOapg.properties.id, str, uuid.UUID, ],
-        version_id: typing.Union[MetaOapg.properties.version_id, str, uuid.UUID, ],
-        error: typing.Union[MetaOapg.properties.error, str, ],
-        ended_at: typing.Union[MetaOapg.properties.ended_at, str, datetime, ],
+        workflow_id: typing.Union[MetaOapg.properties.workflow_id, str, ],
+        input_csv_url: typing.Union[MetaOapg.properties.input_csv_url, str, ],
+        output_csv_url: typing.Union[MetaOapg.properties.output_csv_url, None, str, ],
+        created_at: typing.Union[MetaOapg.properties.created_at, str, ],
+        id: typing.Union[MetaOapg.properties.id, str, ],
+        version_id: typing.Union[MetaOapg.properties.version_id, str, ],
+        error: typing.Union[MetaOapg.properties.error, None, str, ],
+        row_count: typing.Union[MetaOapg.properties.row_count, decimal.Decimal, int, float, ],
         status: typing.Union[MetaOapg.properties.status, str, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
-    ) -> 'WorkflowRunEntity':
+    ) -> 'BulkRunSchema':
         return super().__new__(
             cls,
             *args,
-            output=output,
-            input=input,
             workflow_id=workflow_id,
+            input_csv_url=input_csv_url,
+            output_csv_url=output_csv_url,
             created_at=created_at,
-            started_at=started_at,
             id=id,
             version_id=version_id,
             error=error,
-            ended_at=ended_at,
+            row_count=row_count,
             status=status,
             _configuration=_configuration,
             **kwargs,

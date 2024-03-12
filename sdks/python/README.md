@@ -23,6 +23,8 @@ The Leap Workflows API allows developers to run workflows, fetch workflow runs, 
 - [Async](#async)
 - [Raw HTTP Response](#raw-http-response)
 - [Reference](#reference)
+  * [`leap.bulk_workflow_runs.get_bulk`](#leapbulk_workflow_runsget_bulk)
+  * [`leap.bulk_workflow_runs.run_bulk`](#leapbulk_workflow_runsrun_bulk)
   * [`leap.workflow_runs.get_workflow_run`](#leapworkflow_runsget_workflow_run)
   * [`leap.workflow_runs.workflow`](#leapworkflow_runsworkflow)
 
@@ -49,13 +51,13 @@ leap = Leap(
 )
 
 try:
-    # Get a workflow run
-    get_workflow_run_response = leap.workflow_runs.get_workflow_run(
-        workflow_run_id="rnp_x3p27VQk6MyJfLe",
+    # Get a bulk workflow run
+    get_bulk_response = leap.bulk_workflow_runs.get_bulk(
+        bulk_run_id="bulk_9Nmenl7rxIu2FiSsnqNyTe9G",
     )
-    print(get_workflow_run_response)
+    print(get_bulk_response)
 except ApiException as e:
-    print("Exception when calling WorkflowRunsApi.get_workflow_run: %s\n" % e)
+    print("Exception when calling BulkWorkflowRunsApi.get_bulk: %s\n" % e)
     pprint(e.body)
     pprint(e.headers)
     pprint(e.status)
@@ -79,13 +81,13 @@ leap = Leap(
 
 async def main():
     try:
-        # Get a workflow run
-        get_workflow_run_response = await leap.workflow_runs.aget_workflow_run(
-            workflow_run_id="rnp_x3p27VQk6MyJfLe",
+        # Get a bulk workflow run
+        get_bulk_response = await leap.bulk_workflow_runs.aget_bulk(
+            bulk_run_id="bulk_9Nmenl7rxIu2FiSsnqNyTe9G",
         )
-        print(get_workflow_run_response)
+        print(get_bulk_response)
     except ApiException as e:
-        print("Exception when calling WorkflowRunsApi.get_workflow_run: %s\n" % e)
+        print("Exception when calling BulkWorkflowRunsApi.get_bulk: %s\n" % e)
         pprint(e.body)
         pprint(e.headers)
         pprint(e.status)
@@ -109,26 +111,25 @@ leap = Leap(
 )
 
 try:
-    # Get a workflow run
-    get_workflow_run_response = leap.workflow_runs.raw.get_workflow_run(
-        workflow_run_id="rnp_x3p27VQk6MyJfLe",
+    # Get a bulk workflow run
+    get_bulk_response = leap.bulk_workflow_runs.raw.get_bulk(
+        bulk_run_id="bulk_9Nmenl7rxIu2FiSsnqNyTe9G",
     )
-    pprint(get_workflow_run_response.body)
-    pprint(get_workflow_run_response.body["id"])
-    pprint(get_workflow_run_response.body["version_id"])
-    pprint(get_workflow_run_response.body["status"])
-    pprint(get_workflow_run_response.body["created_at"])
-    pprint(get_workflow_run_response.body["started_at"])
-    pprint(get_workflow_run_response.body["ended_at"])
-    pprint(get_workflow_run_response.body["workflow_id"])
-    pprint(get_workflow_run_response.body["error"])
-    pprint(get_workflow_run_response.body["input"])
-    pprint(get_workflow_run_response.body["output"])
-    pprint(get_workflow_run_response.headers)
-    pprint(get_workflow_run_response.status)
-    pprint(get_workflow_run_response.round_trip_time)
+    pprint(get_bulk_response.body)
+    pprint(get_bulk_response.body["id"])
+    pprint(get_bulk_response.body["version_id"])
+    pprint(get_bulk_response.body["status"])
+    pprint(get_bulk_response.body["created_at"])
+    pprint(get_bulk_response.body["workflow_id"])
+    pprint(get_bulk_response.body["input_csv_url"])
+    pprint(get_bulk_response.body["output_csv_url"])
+    pprint(get_bulk_response.body["error"])
+    pprint(get_bulk_response.body["row_count"])
+    pprint(get_bulk_response.headers)
+    pprint(get_bulk_response.status)
+    pprint(get_bulk_response.round_trip_time)
 except ApiException as e:
-    print("Exception when calling WorkflowRunsApi.get_workflow_run: %s\n" % e)
+    print("Exception when calling BulkWorkflowRunsApi.get_bulk: %s\n" % e)
     pprint(e.body)
     pprint(e.headers)
     pprint(e.status)
@@ -138,6 +139,79 @@ except ApiException as e:
 
 
 ## Reference<a id="reference"></a>
+### `leap.bulk_workflow_runs.get_bulk`<a id="leapbulk_workflow_runsget_bulk"></a>
+
+This endpoint retrieves the details of a specific bulk workflow run using its `bulk_run_id`.
+
+#### 🛠️ Usage<a id="🛠️-usage"></a>
+
+```python
+get_bulk_response = leap.bulk_workflow_runs.get_bulk(
+    bulk_run_id="bulk_9Nmenl7rxIu2FiSsnqNyTe9G",
+)
+```
+
+#### ⚙️ Parameters<a id="⚙️-parameters"></a>
+
+##### bulk_run_id: `str`<a id="bulk_run_id-str"></a>
+
+The ID of the bulk run to retrieve.
+
+#### 🔄 Return<a id="🔄-return"></a>
+
+[`BulkRunSchema`](./leap_workflows/pydantic/bulk_run_schema.py)
+
+#### 🌐 Endpoint<a id="🌐-endpoint"></a>
+
+`/v1/runs/bulk/{bulk_run_id}` `get`
+
+[🔙 **Back to Table of Contents**](#table-of-contents)
+
+---
+
+### `leap.bulk_workflow_runs.run_bulk`<a id="leapbulk_workflow_runsrun_bulk"></a>
+
+This endpoint lets the user run a specified workflow with the provided csv in bulk.
+
+#### 🛠️ Usage<a id="🛠️-usage"></a>
+
+```python
+run_bulk_response = leap.bulk_workflow_runs.run_bulk(
+    workflow_id="wkf_i3F5UjpZ2Vg",
+    input_csv_url="https://myapp.com/input.csv",
+    webhook_url="https://myapp.com/webhook",
+)
+```
+
+#### ⚙️ Parameters<a id="⚙️-parameters"></a>
+
+##### workflow_id: `str`<a id="workflow_id-str"></a>
+
+The ID of the workflow to be run in bulk.
+
+##### input_csv_url: `str`<a id="input_csv_url-str"></a>
+
+A CSV file containing the input data for the bulk run. Each row should contain the input data for a single run.
+
+##### webhook_url: `str`<a id="webhook_url-str"></a>
+
+The URL to which the bulk run results should be sent to on completion.
+
+#### ⚙️ Request Body<a id="⚙️-request-body"></a>
+
+[`RunBulkWorkflowSchema`](./leap_workflows/type/run_bulk_workflow_schema.py)
+#### 🔄 Return<a id="🔄-return"></a>
+
+[`BulkRunSchema`](./leap_workflows/pydantic/bulk_run_schema.py)
+
+#### 🌐 Endpoint<a id="🌐-endpoint"></a>
+
+`/v1/runs/bulk` `post`
+
+[🔙 **Back to Table of Contents**](#table-of-contents)
+
+---
+
 ### `leap.workflow_runs.get_workflow_run`<a id="leapworkflow_runsget_workflow_run"></a>
 
 This endpoint retrieves the details of a specific workflow run using its `workflow_run_id`.
@@ -158,7 +232,7 @@ The ID of the workflow run to retrieve.
 
 #### 🔄 Return<a id="🔄-return"></a>
 
-[`WorkflowRunEntity`](./leap_workflows/pydantic/workflow_run_entity.py)
+[`WorkflowRunSchema`](./leap_workflows/pydantic/workflow_run_schema.py)
 
 #### 🌐 Endpoint<a id="🌐-endpoint"></a>
 
@@ -195,14 +269,14 @@ The ID of the workflow to be run.
 
 The URL to which the workflow results should be sent to on completion.
 
-##### input: [`RunWorkflowDtoInput`](./leap_workflows/type/run_workflow_dto_input.py)<a id="input-runworkflowdtoinputleap_workflowstyperun_workflow_dto_inputpy"></a>
+##### input: [`RunWorkflowSchemaInput`](./leap_workflows/type/run_workflow_schema_input.py)<a id="input-runworkflowschemainputleap_workflowstyperun_workflow_schema_inputpy"></a>
 
 #### ⚙️ Request Body<a id="⚙️-request-body"></a>
 
-[`RunWorkflowDto`](./leap_workflows/type/run_workflow_dto.py)
+[`RunWorkflowSchema`](./leap_workflows/type/run_workflow_schema.py)
 #### 🔄 Return<a id="🔄-return"></a>
 
-[`WorkflowRunEntity`](./leap_workflows/pydantic/workflow_run_entity.py)
+[`WorkflowRunSchema`](./leap_workflows/pydantic/workflow_run_schema.py)
 
 #### 🌐 Endpoint<a id="🌐-endpoint"></a>
 

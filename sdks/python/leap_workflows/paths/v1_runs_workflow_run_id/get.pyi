@@ -33,12 +33,12 @@ import frozendict  # noqa: F401
 
 from leap_workflows import schemas  # noqa: F401
 
-from leap_workflows.model.workflow_run_entity import WorkflowRunEntity as WorkflowRunEntitySchema
+from leap_workflows.model.workflow_run_schema import WorkflowRunSchema as WorkflowRunSchemaSchema
 
-from leap_workflows.type.workflow_run_entity import WorkflowRunEntity
+from leap_workflows.type.workflow_run_schema import WorkflowRunSchema
 
 from ...api_client import Dictionary
-from leap_workflows.pydantic.workflow_run_entity import WorkflowRunEntity as WorkflowRunEntityPydantic
+from leap_workflows.pydantic.workflow_run_schema import WorkflowRunSchema as WorkflowRunSchemaPydantic
 
 # Path params
 WorkflowRunIdSchema = schemas.StrSchema
@@ -66,17 +66,17 @@ request_path_workflow_run_id = api_client.PathParameter(
     schema=WorkflowRunIdSchema,
     required=True,
 )
-SchemaFor200ResponseBodyApplicationJson = WorkflowRunEntitySchema
+SchemaFor200ResponseBodyApplicationJson = WorkflowRunSchemaSchema
 
 
 @dataclass
 class ApiResponseFor200(api_client.ApiResponse):
-    body: WorkflowRunEntity
+    body: WorkflowRunSchema
 
 
 @dataclass
 class ApiResponseFor200Async(api_client.AsyncApiResponse):
-    body: WorkflowRunEntity
+    body: WorkflowRunSchema
 
 
 _response_for_200 = api_client.OpenApiResponse(
@@ -355,27 +355,27 @@ class GetWorkflowRun(BaseApi):
         workflow_run_id: str,
         validate: bool = False,
         **kwargs,
-    ) -> WorkflowRunEntityPydantic:
+    ) -> WorkflowRunSchemaPydantic:
         raw_response = await self.raw.aget_workflow_run(
             workflow_run_id=workflow_run_id,
             **kwargs,
         )
         if validate:
-            return WorkflowRunEntityPydantic(**raw_response.body)
-        return api_client.construct_model_instance(WorkflowRunEntityPydantic, raw_response.body)
+            return WorkflowRunSchemaPydantic(**raw_response.body)
+        return api_client.construct_model_instance(WorkflowRunSchemaPydantic, raw_response.body)
     
     
     def get_workflow_run(
         self,
         workflow_run_id: str,
         validate: bool = False,
-    ) -> WorkflowRunEntityPydantic:
+    ) -> WorkflowRunSchemaPydantic:
         raw_response = self.raw.get_workflow_run(
             workflow_run_id=workflow_run_id,
         )
         if validate:
-            return WorkflowRunEntityPydantic(**raw_response.body)
-        return api_client.construct_model_instance(WorkflowRunEntityPydantic, raw_response.body)
+            return WorkflowRunSchemaPydantic(**raw_response.body)
+        return api_client.construct_model_instance(WorkflowRunSchemaPydantic, raw_response.body)
 
 
 class ApiForget(BaseApi):
