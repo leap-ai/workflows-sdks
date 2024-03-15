@@ -79,6 +79,6 @@ export interface WorkflowRunSchema {
     'output': object | null;
 }
 
-type WorkflowRunSchemaStatusEnum = 'completed' | 'running' | 'failed'
+type WorkflowRunSchemaStatusEnum = 'completed' | 'running' | 'failed' | 'queued' | 'cancelled'
 
 

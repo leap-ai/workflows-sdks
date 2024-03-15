@@ -73,6 +73,6 @@ export interface BulkRunSchema {
     'row_count': number;
 }
 
-type BulkRunSchemaStatusEnum = 'completed' | 'running' | 'failed'
+type BulkRunSchemaStatusEnum = 'completed' | 'running' | 'failed' | 'queued' | 'cancelled'
 
 

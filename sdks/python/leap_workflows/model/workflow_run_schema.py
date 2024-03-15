@@ -62,6 +62,8 @@ class WorkflowRunSchema(
                         "completed": "COMPLETED",
                         "running": "RUNNING",
                         "failed": "FAILED",
+                        "queued": "QUEUED",
+                        "cancelled": "CANCELLED",
                     }
                 
                 @schemas.classproperty
@@ -75,6 +77,14 @@ class WorkflowRunSchema(
                 @schemas.classproperty
                 def FAILED(cls):
                     return cls("failed")
+                
+                @schemas.classproperty
+                def QUEUED(cls):
+                    return cls("queued")
+                
+                @schemas.classproperty
+                def CANCELLED(cls):
+                    return cls("cancelled")
             created_at = schemas.StrSchema
             
             

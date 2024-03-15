@@ -22,7 +22,7 @@ class BulkRunSchema(BaseModel):
 
     version_id: str = Field(alias='version_id')
 
-    status: Literal["completed", "running", "failed"] = Field(alias='status')
+    status: Literal["completed", "running", "failed", "queued", "cancelled"] = Field(alias='status')
 
     created_at: str = Field(alias='created_at')
 

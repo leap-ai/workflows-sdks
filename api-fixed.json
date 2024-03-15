@@ -252,7 +252,9 @@
             "enum": [
               "completed",
               "running",
-              "failed"
+              "failed",
+              "queued",
+              "cancelled"
             ]
           },
           "created_at": {
@@ -340,7 +342,9 @@
             "enum": [
               "completed",
               "running",
-              "failed"
+              "failed",
+              "queued",
+              "cancelled"
             ]
           },
           "created_at": {
