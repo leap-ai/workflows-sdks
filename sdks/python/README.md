@@ -7,7 +7,7 @@
 The Leap Workflows API allows developers to run workflows, fetch workflow runs, and provide other utility functions related to workflow runs. Please use the X-Api-Key for authenticated requests.
 
 
-[![PyPI](https://img.shields.io/badge/PyPI-v2.0.2-blue)](https://pypi.org/project/leap-workflows-python-sdk/2.0.2)
+[![PyPI](https://img.shields.io/badge/PyPI-v2.0.3-blue)](https://pypi.org/project/leap-workflows-python-sdk/2.0.3)
 [![README.md](https://img.shields.io/badge/README-Click%20Here-green)](https://github.com/leap-ai/workflows-sdks/tree/main/sdks/python#readme)
 [![More Info](https://img.shields.io/badge/More%20Info-Click%20Here-orange)](https://tryleap.ai/)
 
@@ -37,7 +37,7 @@ Python >=3.7
 ## Installation<a id="installation"></a>
 
 ```sh
-pip install leap-workflows-python-sdk==2.0.2
+pip install leap-workflows-python-sdk==2.0.3
 ```
 
 ## Getting Started<a id="getting-started"></a>
