@@ -66,6 +66,14 @@ class BulkRunSchema(
                 @schemas.classproperty
                 def FAILED(cls):
                     return cls("failed")
+                
+                @schemas.classproperty
+                def QUEUED(cls):
+                    return cls("queued")
+                
+                @schemas.classproperty
+                def CANCELLED(cls):
+                    return cls("cancelled")
             created_at = schemas.StrSchema
             workflow_id = schemas.StrSchema
             input_csv_url = schemas.StrSchema

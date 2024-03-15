@@ -1,4 +1,4 @@
-<div align="center">
+<div align="left">
 
 [![Visit Leap Workflows](./header.png)](https://www.tryleap.ai/)
 
