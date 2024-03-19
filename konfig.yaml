@@ -15,6 +15,7 @@ portal:
   logo:
     light: LightMode-BlackLogo.png
     dark: DarkMode-WhiteLogo.png
+  customSnippet: docs/script.html
   documentation:
     sidebar:
       sections:
