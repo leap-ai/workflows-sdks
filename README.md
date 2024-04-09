@@ -4,3 +4,4 @@
 |-|-|-|-|-|
 |Python|2.0.3|[PyPI](https://pypi.org/project/leap-workflows-python-sdk/2.0.3)|[README](https://github.com/leap-ai/workflows-sdks/tree/HEAD/sdks/python#readme)|[Source](https://github.com/leap-ai/workflows-sdks/tree/HEAD/sdks/python)|
 |TypeScript|1.1.2|[npm](https://www.npmjs.com/package/@leap-ai/workflows/v/1.1.2)|[README](https://github.com/leap-ai/workflows-sdks/tree/HEAD/sdks/typescript#readme)|[Source](https://github.com/leap-ai/workflows-sdks/tree/HEAD/sdks/typescript)|
+|Swift|0.1.0|[CocoaPods](https://cocoapods.org/pods/Leap)|[README](https://github.com/leap-ai/leap-workflows-swift-sdk/tree/HEAD/sdks/swift#readme)|[Source](https://github.com/leap-ai/leap-workflows-swift-sdk/tree/HEAD/sdks/swift)|

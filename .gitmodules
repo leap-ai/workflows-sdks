@@ -1,0 +1,3 @@
+[submodule "sdks/swift"]
+	path = sdks/swift
+	url = https://github.com/leap-ai/leap-workflows-swift-sdk.git

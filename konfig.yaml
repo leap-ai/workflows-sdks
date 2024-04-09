@@ -46,3 +46,11 @@ generators:
     git:
       userId: leap-ai
       repoId: workflows-sdks/tree/main/sdks/typescript
+  swift:
+    version: 0.1.0
+    projectName: Leap
+    podAuthors: tryleap.ai
+    outputDirectory: sdks/swift
+    git:
+      userId: leap-ai
+      repoId: leap-workflows-swift-sdk
